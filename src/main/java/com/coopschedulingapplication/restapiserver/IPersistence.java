@@ -6,18 +6,17 @@ import com.coopschedulingapplication.restapiserver.DataObjects.WorkerCreationReq
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 
 import java.security.Principal;
-import java.util.Map;
 
 public interface IPersistence {
 
-    Map<String, Object> addWorkerCreationRequest(NamedParameterJdbcTemplate jdbcTemplate, WorkerCreationRequest request, Principal principal);
-    Map<String, Object> acceptWorkerCreationRequest(NamedParameterJdbcTemplate jdbcTemplate, WorkerCreationRequest request);
-    Map<String, Object> deleteWorkerCreationRequest(NamedParameterJdbcTemplate jdbcTemplate, WorkerCreationRequest request);
+    WorkerCreationRequest addWorkerCreationRequest(NamedParameterJdbcTemplate jdbcTemplate, WorkerCreationRequest request, Principal principal);
+    WorkerCreationRequest acceptWorkerCreationRequest(NamedParameterJdbcTemplate jdbcTemplate, WorkerCreationRequest request);
+    WorkerCreationRequest deleteWorkerCreationRequest(NamedParameterJdbcTemplate jdbcTemplate, WorkerCreationRequest request);
 
-    Map<String, Object> addShiftTemplate(NamedParameterJdbcTemplate jdbcTemplate, ShiftTemplate template, Principal principal);
-    Map<String, Object> updateShiftTemplate(NamedParameterJdbcTemplate jdbcTemplate, ShiftTemplate template);
-    Map<String, Object> deleteShiftTemplate(NamedParameterJdbcTemplate jdbcTemplate, ShiftTemplate template);
+    ShiftTemplate addShiftTemplate(NamedParameterJdbcTemplate jdbcTemplate, ShiftTemplate template, Principal principal);
+    ShiftTemplate updateShiftTemplate(NamedParameterJdbcTemplate jdbcTemplate, ShiftTemplate template);
+    ShiftTemplate deleteShiftTemplate(NamedParameterJdbcTemplate jdbcTemplate, ShiftTemplate template);
 
-    Map<String, Object> setScheduleTemplate(NamedParameterJdbcTemplate jdbcTemplate, ScheduleTemplate template);
+    ScheduleTemplate setScheduleTemplate(NamedParameterJdbcTemplate jdbcTemplate, ScheduleTemplate template);
 
 }
