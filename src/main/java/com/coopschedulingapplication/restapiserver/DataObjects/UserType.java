@@ -1,4 +1,4 @@
-package com.coopschedulingapplication.restapiserver.StompEntities;
+package com.coopschedulingapplication.restapiserver.DataObjects;
 
 public enum UserType {
     chain_administrator,

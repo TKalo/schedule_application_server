@@ -1,6 +1,6 @@
 package com.coopschedulingapplication.restapiserver.Configurations;
 
-import com.coopschedulingapplication.restapiserver.StompEntities.UserType;
+import com.coopschedulingapplication.restapiserver.DataObjects.UserType;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.messaging.MessageSecurityMetadataSourceRegistry;
 import org.springframework.security.config.annotation.web.socket.AbstractSecurityWebSocketMessageBrokerConfigurer;

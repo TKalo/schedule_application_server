@@ -1,5 +1,8 @@
 package com.coopschedulingapplication.restapiserver.Controllers;
 
+import com.coopschedulingapplication.restapiserver.DataObjects.ScheduleTemplate;
+import com.coopschedulingapplication.restapiserver.DataObjects.ShiftTemplate;
+import com.coopschedulingapplication.restapiserver.DataObjects.WorkerCreationRequest;
 import com.coopschedulingapplication.restapiserver.IPersistence;
 import com.coopschedulingapplication.restapiserver.PostgressHandler;
 import com.coopschedulingapplication.restapiserver.SpringDestinations;
@@ -30,24 +33,27 @@ public class WebSocketRequest {
     IPersistence persistence = new PostgressHandler();
 
     @MessageMapping("/addWorkerCreationRequest")
-    public Object addWorkerCreationRequest(@Payload Map<String,Object> params, Principal principal){
-        Map<String, Object> request = persistence.addWorkerCreationRequest(jdbcTemplate,params,principal);
+    @SendToUser
+    public boolean addWorkerCreationRequest(@Payload Map<String,Object> params, Principal principal){
+        Map<String, Object> request = persistence.addWorkerCreationRequest(jdbcTemplate, WorkerCreationRequest.fromJson(params),principal);
         if(request == null) return false;
         template.convertAndSend(SpringDestinations.userCreationRequestsSubscription + request.get("store_id"), new Post<>(PostCommand.ADD, List.of(request)));
         return true;
     }
 
     @MessageMapping("/acceptWorkerCreationRequest")
-    public Object acceptWorkerCreationRequest(@Payload Map<String, Object> params){
-        Map<String, Object> request = persistence.acceptWorkerCreationRequest(jdbcTemplate,params);
+    @SendToUser
+    public boolean acceptWorkerCreationRequest(@Payload Map<String, Object> params){
+        Map<String, Object> request = persistence.acceptWorkerCreationRequest(jdbcTemplate,WorkerCreationRequest.fromJson(params));
         if(request == null) return false;
         template.convertAndSend(SpringDestinations.userCreationRequestsSubscription + request.get("store_id"), new Post<>(PostCommand.UPDATE, List.of(request)));
         return true;
     }
 
     @MessageMapping("/deleteWorkerCreationRequest")
-    public Object deleteWorkerCreationRequest(@Payload Map<String, Object> params){
-        Map<String, Object> request = persistence.deleteWorkerCreationRequest(jdbcTemplate,params);
+    @SendToUser
+    public boolean deleteWorkerCreationRequest(@Payload Map<String, Object> params){
+        Map<String, Object> request = persistence.deleteWorkerCreationRequest(jdbcTemplate,WorkerCreationRequest.fromJson(params));
         if(request == null) return false;
         template.convertAndSend(SpringDestinations.userCreationRequestsSubscription + request.get("store_id"), new Post<>(PostCommand.DELETE, List.of(request)));
         return true;
@@ -55,17 +61,17 @@ public class WebSocketRequest {
 
     @MessageMapping("/addShiftTemplate")
     @SendToUser
-    public Object addShiftTemplate(@Payload Map<String,Object> params, Principal principal){
-        Map<String, Object> request = persistence.addShiftTemplate(jdbcTemplate,params,principal);
-        if(request == null) return Map.of("abd","123");
+    public boolean addShiftTemplate(@Payload Map<String,Object> params, Principal principal){
+        Map<String, Object> request = persistence.addShiftTemplate(jdbcTemplate,ShiftTemplate.fromJson(params),principal);
+        if(request == null) return false;
         template.convertAndSend(SpringDestinations.shiftTemplateSubscription + request.get("store_id"), new Post<>(PostCommand.ADD, List.of(request)));
-        return Map.of("abd","123");
+        return true;
     }
 
     @MessageMapping("/updateShiftTemplate")
     @SendToUser
-    public Object updateShiftTemplate(@Payload Map<String, Object> params){
-        Map<String, Object> request = persistence.updateShiftTemplate(jdbcTemplate,params);
+    public boolean updateShiftTemplate(@Payload Map<String, Object> params){
+        Map<String, Object> request = persistence.updateShiftTemplate(jdbcTemplate,ShiftTemplate.fromJson(params));
         if(request == null) return false;
         template.convertAndSend(SpringDestinations.shiftTemplateSubscription + request.get("store_id"), new Post<>(PostCommand.UPDATE, List.of(request)));
         return true;
@@ -73,16 +79,16 @@ public class WebSocketRequest {
 
     @MessageMapping("/deleteShiftTemplate")
     @SendToUser
-    public Object deleteShiftTemplate(@Payload Map<String, Object> params){
-        Map<String, Object> request = persistence.deleteShiftTemplate(jdbcTemplate,params);
+    public boolean deleteShiftTemplate(@Payload Map<String, Object> params){
+        Map<String, Object> request = persistence.deleteShiftTemplate(jdbcTemplate, ShiftTemplate.fromJson(params));
         if(request == null) return false;
         template.convertAndSend(SpringDestinations.shiftTemplateSubscription + request.get("store_id"), new Post<>(PostCommand.DELETE, List.of(request)));
         return true;
     }
 
     @MessageMapping("/setScheduleTemplate")
-    public Object setScheduleTemplate(@Payload Map<String,Object> params) {
-        Map<String, Object> request = persistence.setScheduleTemplate(jdbcTemplate,params);
+    public boolean setScheduleTemplate(@Payload Map<String,Object> params) {
+        Map<String, Object> request = persistence.setScheduleTemplate(jdbcTemplate, ScheduleTemplate.fromJson(params));
         if(request == null) return false;
         template.convertAndSend(SpringDestinations.scheduleTemplateSubscription + request.get("store_id"), new Post<>(PostCommand.DELETE, List.of(request)));
         return true;

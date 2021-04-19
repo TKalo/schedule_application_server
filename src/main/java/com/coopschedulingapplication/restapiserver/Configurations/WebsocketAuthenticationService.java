@@ -1,6 +1,6 @@
 package com.coopschedulingapplication.restapiserver.Configurations;
 
-import com.coopschedulingapplication.restapiserver.StompEntities.UserType;
+import com.coopschedulingapplication.restapiserver.DataObjects.UserType;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.GrantedAuthority;
