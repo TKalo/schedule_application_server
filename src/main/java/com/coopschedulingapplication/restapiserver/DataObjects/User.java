@@ -21,7 +21,7 @@ public class User {
         return new User(
                 (Integer) json.get("id"),
                 (Integer) json.get("storeId"),
-                (UserType) json.get("type"),
+                json.get("type") != null ? UserType.valueOf((String) json.get("type")) : null,
                 (String) json.get("name"),
                 (String) json.get("email")
         );

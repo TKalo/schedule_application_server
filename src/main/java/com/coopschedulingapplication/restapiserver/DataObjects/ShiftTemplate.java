@@ -26,8 +26,8 @@ public class ShiftTemplate {
                 (Integer) json.get("storeId"),
                 (BigInteger) json.get("startTime"),
                 (BigInteger) json.get("endTime"),
-                (WeekDay) json.get("weekDay"),
-                (WorkerType) json.get("workerType")
+                json.get("weekDay") != null ? WeekDay.valueOf((String) json.get("weekDay")) : null,
+                json.get("workerType") != null ? WorkerType.valueOf((String) json.get("workerType")) : null
         );
     }
 

@@ -22,8 +22,8 @@ public class WorkerCreationRequest {
         return new WorkerCreationRequest(
                 (Integer) json.get("id"),
                 (Integer) json.get("storeId"),
-                (WorkerType) json.get("type"),
-                (WorkerCreationStatus) json.get("status"),
+                json.get("type") != null ? WorkerType.valueOf((String) json.get("type")) : null,
+                json.get("status") != null ? WorkerCreationStatus.valueOf((String) json.get("status")) : null,
                 (String) json.get("key")
         );
     }

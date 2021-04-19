@@ -10,7 +10,7 @@ import java.security.Principal;
 import java.sql.Types;
 import java.util.Map;
 
-public class PostgressHandler implements IPersistence {
+public class PostgresHandler implements IPersistence {
     @Override
     public WorkerCreationRequest addWorkerCreationRequest(NamedParameterJdbcTemplate jdbcTemplate, WorkerCreationRequest request, Principal principal) {
         try {

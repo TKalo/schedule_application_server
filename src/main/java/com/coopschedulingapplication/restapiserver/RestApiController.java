@@ -34,6 +34,7 @@ public class RestApiController {
     @PostMapping("/addDepartment")
     public void addDepartment(@RequestBody Map<String,String> jsonParams){
         jdbcTemplate.update("INSERT INTO store_employee (name, email, password, store_department_id, type) VALUES(:name, :email, :password, (INSERT INTO store (address, city) VALUES(:address, :city) RETURNING id), 'administrator')",jsonParams);
+
     }
 
     @Transactional

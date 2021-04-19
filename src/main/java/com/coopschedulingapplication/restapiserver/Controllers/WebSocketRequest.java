@@ -4,7 +4,7 @@ import com.coopschedulingapplication.restapiserver.DataObjects.ScheduleTemplate;
 import com.coopschedulingapplication.restapiserver.DataObjects.ShiftTemplate;
 import com.coopschedulingapplication.restapiserver.DataObjects.WorkerCreationRequest;
 import com.coopschedulingapplication.restapiserver.IPersistence;
-import com.coopschedulingapplication.restapiserver.PostgressHandler;
+import com.coopschedulingapplication.restapiserver.PostgresHandler;
 import com.coopschedulingapplication.restapiserver.SpringDestinations;
 import com.coopschedulingapplication.restapiserver.StompEntities.Post;
 import com.coopschedulingapplication.restapiserver.StompEntities.PostCommand;
@@ -30,7 +30,7 @@ public class WebSocketRequest {
     @Autowired
     NamedParameterJdbcTemplate jdbcTemplate;
 
-    IPersistence persistence = new PostgressHandler();
+    IPersistence persistence = new PostgresHandler();
 
     @MessageMapping("/addWorkerCreationRequest")
     @SendToUser
