@@ -1,5 +1,8 @@
 package com.coopschedulingapplication.restapiserver.Controllers;
 
+import com.coopschedulingapplication.restapiserver.DataObjects.*;
+import com.coopschedulingapplication.restapiserver.IPersistence;
+import com.coopschedulingapplication.restapiserver.PostgresHandler;
 import com.coopschedulingapplication.restapiserver.StompEntities.Post;
 import com.coopschedulingapplication.restapiserver.StompEntities.PostCommand;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,33 +27,33 @@ public class WebSocketSubscribe {
     @Autowired
     NamedParameterJdbcTemplate jdbcTemplate;
 
-    @SubscribeMapping("/scheduleTemplate/{store_id}")
-    public Post<Map<String,Object>> getScheduleTemplate(@DestinationVariable String store_id) {
+    IPersistence persistence = new PostgresHandler();
+
+    @SubscribeMapping("/scheduleTemplate/{storeId}")
+    public Post<ScheduleTemplate> getScheduleTemplate(@DestinationVariable String storeId) {
         System.out.println("/subscribe/scheduleTemplate");
-        return new Post<>(PostCommand.ADD, jdbcTemplate.queryForList("SELECT * FROM schedule_template WHERE store_id=:store_id",Map.of("store_id",Integer.parseInt(store_id))));
+        return new Post<>(PostCommand.ADD, List.of(persistence.getStoreScheduleTemplate(jdbcTemplate,Integer.parseInt(storeId))));
     }
 
-    @SubscribeMapping("/userCreationRequests/{store_id}")
-    public Post<Map<String,Object>> getUserCreationRequests(@DestinationVariable String store_id) {
+    @SubscribeMapping("/userCreationRequests/{storeId}")
+    public Post<WorkerCreationRequest> getUserCreationRequests(@DestinationVariable String storeId) {
         System.out.println("/subscribe/userCreationRequests");
-        return new Post<>(PostCommand.ADD, jdbcTemplate.queryForList("SELECT * FROM worker_creation_request WHERE store_id=:store_id", Map.of("store_id", Integer.parseInt(store_id))));
+        return new Post<>(PostCommand.ADD, persistence.getStoreWorkerCreationRequests(jdbcTemplate,Integer.parseInt(storeId)));
     }
 
-    @SubscribeMapping("/shiftTemplate/{store_id}")
-    public Post<Map<String,Object>> getShiftTemplateRequests(@DestinationVariable String store_id) {
+    @SubscribeMapping("/shiftTemplate/{storeId}")
+    public Post<ShiftTemplate> getShiftTemplateRequests(@DestinationVariable String storeId) {
         System.out.println("/subscribe/shiftTemplate");
-        return new Post<>(PostCommand.ADD, jdbcTemplate.queryForList("SELECT * FROM shift_template WHERE store_id=:store_id", Map.of("store_id", Integer.parseInt(store_id))));
+        return new Post<>(PostCommand.ADD, persistence.getStoreShiftTemplates(jdbcTemplate,Integer.parseInt(storeId)));
     }
 
     @SubscribeMapping("/currentUser")
-    public Map<String,Object> getCurrentUser(Principal principal){
-        Map<String,Object> user = jdbcTemplate.queryForMap("SELECT * FROM user_table WHERE id=:id", Map.of("id",Integer.valueOf(principal.getName())));
-        user.remove("password");
-        return user;
+    public User getCurrentUser(Principal principal){
+        return persistence.getUser(jdbcTemplate,Integer.parseInt(principal.getName()));
     }
 
     @SubscribeMapping("/currentUserStore")
-    public Map<String,Object> getCurrentUserStore(Principal principal) {
-        return jdbcTemplate.queryForMap("SELECT * FROM store WHERE id=(SELECT store_id FROM user_table WHERE id=:user_id)", Map.of("user_id", Integer.parseInt(principal.getName())));
+    public Store getCurrentUserStore(Principal principal) {
+        return persistence.getUserStore(jdbcTemplate,Integer.parseInt(principal.getName()));
     }
 }

@@ -1,17 +1,16 @@
 package com.coopschedulingapplication.restapiserver.DataObjects;
 
-import java.math.BigInteger;
 import java.util.Map;
 
 public class ShiftTemplate {
     Integer id;
     Integer storeId;
-    BigInteger startTime;
-    BigInteger endTime;
+    Long startTime;
+    Long endTime;
     WeekDay weekDay;
     WorkerType workerType;
 
-    public ShiftTemplate(Integer id, Integer storeId, BigInteger startTime, BigInteger endTime, WeekDay weekDay, WorkerType workerType) {
+    public ShiftTemplate(Integer id, Integer storeId, Long startTime, Long endTime, WeekDay weekDay, WorkerType workerType) {
         this.id = id;
         this.storeId = storeId;
         this.startTime = startTime;
@@ -24,8 +23,8 @@ public class ShiftTemplate {
         return new ShiftTemplate(
                 (Integer) json.get("id"),
                 (Integer) json.get("storeId"),
-                (BigInteger) json.get("startTime"),
-                (BigInteger) json.get("endTime"),
+                (Long) json.get("startTime"),
+                (Long) json.get("endTime"),
                 json.get("weekDay") != null ? WeekDay.valueOf((String) json.get("weekDay")) : null,
                 json.get("workerType") != null ? WorkerType.valueOf((String) json.get("workerType")) : null
         );
@@ -39,11 +38,11 @@ public class ShiftTemplate {
         return storeId;
     }
 
-    public BigInteger getStartTime() {
+    public Long getStartTime() {
         return startTime;
     }
 
-    public BigInteger getEndTime() {
+    public Long getEndTime() {
         return endTime;
     }
 

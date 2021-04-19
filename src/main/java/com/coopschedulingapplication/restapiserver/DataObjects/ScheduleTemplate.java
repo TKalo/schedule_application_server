@@ -1,16 +1,15 @@
 package com.coopschedulingapplication.restapiserver.DataObjects;
 
-import java.math.BigInteger;
 import java.util.Map;
 
 public class ScheduleTemplate {
     Integer storeId;
     Integer weeks;
-    BigInteger preferenceDeadline;
-    BigInteger creationDeadline;
-    BigInteger initiationDeadline;
+    Long preferenceDeadline;
+    Long creationDeadline;
+    Long initiationDeadline;
 
-    public ScheduleTemplate(Integer storeId, Integer weeks, BigInteger preferenceDeadline, BigInteger creationDeadline, BigInteger initiationDeadline) {
+    public ScheduleTemplate(Integer storeId, Integer weeks, Long preferenceDeadline, Long creationDeadline, Long initiationDeadline) {
         this.storeId = storeId;
         this.weeks = weeks;
         this.preferenceDeadline = preferenceDeadline;
@@ -20,11 +19,11 @@ public class ScheduleTemplate {
 
     public static ScheduleTemplate fromJson(Map<String, Object> json){
         return new ScheduleTemplate(
-                (Integer) json.get("id"),
+                (Integer) json.get("storeId"),
                 (Integer) json.get("weeks"),
-                (BigInteger) json.get("preferenceDeadline"),
-                (BigInteger) json.get("creationDeadline"),
-                (BigInteger) json.get("initiationDeadline")
+                (Long) json.get("preferenceDeadline"),
+                (Long) json.get("creationDeadline"),
+                (Long) json.get("initiationDeadline")
         );
     }
 
@@ -36,15 +35,15 @@ public class ScheduleTemplate {
         return weeks;
     }
 
-    public BigInteger getPreferenceDeadline() {
+    public Long getPreferenceDeadline() {
         return preferenceDeadline;
     }
 
-    public BigInteger getCreationDeadline() {
+    public Long getCreationDeadline() {
         return creationDeadline;
     }
 
-    public BigInteger getInitiationDeadline() {
+    public Long getInitiationDeadline() {
         return initiationDeadline;
     }
 }

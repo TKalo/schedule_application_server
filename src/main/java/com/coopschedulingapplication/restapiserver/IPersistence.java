@@ -1,11 +1,10 @@
 package com.coopschedulingapplication.restapiserver;
 
-import com.coopschedulingapplication.restapiserver.DataObjects.ScheduleTemplate;
-import com.coopschedulingapplication.restapiserver.DataObjects.ShiftTemplate;
-import com.coopschedulingapplication.restapiserver.DataObjects.WorkerCreationRequest;
+import com.coopschedulingapplication.restapiserver.DataObjects.*;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 
 import java.security.Principal;
+import java.util.List;
 
 public interface IPersistence {
 
@@ -18,5 +17,11 @@ public interface IPersistence {
     ShiftTemplate deleteShiftTemplate(NamedParameterJdbcTemplate jdbcTemplate, ShiftTemplate template);
 
     ScheduleTemplate setScheduleTemplate(NamedParameterJdbcTemplate jdbcTemplate, ScheduleTemplate template);
+
+    User getUser(NamedParameterJdbcTemplate jdbcTemplate, int userId);
+    Store getUserStore(NamedParameterJdbcTemplate jdbcTemplate, int userId);
+    List<ShiftTemplate> getStoreShiftTemplates(NamedParameterJdbcTemplate jdbcTemplate, int storeId);
+    List<WorkerCreationRequest> getStoreWorkerCreationRequests(NamedParameterJdbcTemplate jdbcTemplate, int storeId);
+    ScheduleTemplate getStoreScheduleTemplate(NamedParameterJdbcTemplate jdbcTemplate, int storeId);
 
 }
