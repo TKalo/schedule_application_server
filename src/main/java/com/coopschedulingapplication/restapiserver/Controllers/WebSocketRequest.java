@@ -3,9 +3,9 @@ package com.coopschedulingapplication.restapiserver.Controllers;
 import com.coopschedulingapplication.restapiserver.DataObjects.ScheduleTemplate;
 import com.coopschedulingapplication.restapiserver.DataObjects.ShiftTemplate;
 import com.coopschedulingapplication.restapiserver.DataObjects.WorkerCreationRequest;
-import com.coopschedulingapplication.restapiserver.IPersistence;
-import com.coopschedulingapplication.restapiserver.PostgresHandler;
-import com.coopschedulingapplication.restapiserver.SpringDestinations;
+import com.coopschedulingapplication.restapiserver.persistence.IPersistence;
+import com.coopschedulingapplication.restapiserver.persistence.PostgresHandler;
+import com.coopschedulingapplication.restapiserver.SpringDests;
 import com.coopschedulingapplication.restapiserver.StompEntities.Post;
 import com.coopschedulingapplication.restapiserver.StompEntities.PostCommand;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,7 +21,7 @@ import java.util.List;
 import java.util.Map;
 
 @Controller
-@MessageMapping("/request")
+@MessageMapping(SpringDests.request)
 public class WebSocketRequest {
 
     @Autowired
@@ -37,7 +37,7 @@ public class WebSocketRequest {
     public boolean addWorkerCreationRequest(@Payload Map<String,Object> params, Principal principal){
         WorkerCreationRequest request = persistence.addWorkerCreationRequest(jdbcTemplate, WorkerCreationRequest.fromJson(params),principal);
         if(request == null) return false;
-        template.convertAndSend(SpringDestinations.userCreationRequestsSubscription + request.getStoreId(), new Post<>(PostCommand.ADD, List.of(request)));
+        template.convertAndSend(SpringDests.userCreationRequestSub + request.getStoreId(), new Post<>(PostCommand.ADD, List.of(request)));
         return true;
     }
 
@@ -46,7 +46,7 @@ public class WebSocketRequest {
     public boolean acceptWorkerCreationRequest(@Payload Map<String, Object> params){
         WorkerCreationRequest request = persistence.acceptWorkerCreationRequest(jdbcTemplate,WorkerCreationRequest.fromJson(params));
         if(request == null) return false;
-        template.convertAndSend(SpringDestinations.userCreationRequestsSubscription + request.getStoreId(), new Post<>(PostCommand.UPDATE, List.of(request)));
+        template.convertAndSend(SpringDests.userCreationRequestSub + request.getStoreId(), new Post<>(PostCommand.UPDATE, List.of(request)));
         return true;
     }
 
@@ -55,7 +55,7 @@ public class WebSocketRequest {
     public boolean deleteWorkerCreationRequest(@Payload Map<String, Object> params){
         WorkerCreationRequest request = persistence.deleteWorkerCreationRequest(jdbcTemplate,WorkerCreationRequest.fromJson(params));
         if(request == null) return false;
-        template.convertAndSend(SpringDestinations.userCreationRequestsSubscription + request.getStoreId(), new Post<>(PostCommand.DELETE, List.of(request)));
+        template.convertAndSend(SpringDests.userCreationRequestSub + request.getStoreId(), new Post<>(PostCommand.DELETE, List.of(request)));
         return true;
     }
 
@@ -64,7 +64,7 @@ public class WebSocketRequest {
     public boolean addShiftTemplate(@Payload Map<String,Object> params, Principal principal){
         ShiftTemplate request = persistence.addShiftTemplate(jdbcTemplate,ShiftTemplate.fromJson(params),principal);
         if(request == null) return false;
-        template.convertAndSend(SpringDestinations.shiftTemplateSubscription + request.getStoreId(), new Post<>(PostCommand.ADD, List.of(request)));
+        template.convertAndSend(SpringDests.scheduleTemplateSub + request.getStoreId(), new Post<>(PostCommand.ADD, List.of(request)));
         return true;
     }
 
@@ -73,7 +73,7 @@ public class WebSocketRequest {
     public boolean updateShiftTemplate(@Payload Map<String, Object> params){
         ShiftTemplate request = persistence.updateShiftTemplate(jdbcTemplate,ShiftTemplate.fromJson(params));
         if(request == null) return false;
-        template.convertAndSend(SpringDestinations.shiftTemplateSubscription + request.getStoreId(), new Post<>(PostCommand.UPDATE, List.of(request)));
+        template.convertAndSend(SpringDests.scheduleTemplateSub + request.getStoreId(), new Post<>(PostCommand.UPDATE, List.of(request)));
         return true;
     }
 
@@ -82,7 +82,7 @@ public class WebSocketRequest {
     public boolean deleteShiftTemplate(@Payload Map<String, Object> params){
         ShiftTemplate request = persistence.deleteShiftTemplate(jdbcTemplate, ShiftTemplate.fromJson(params));
         if(request == null) return false;
-        template.convertAndSend(SpringDestinations.shiftTemplateSubscription + request.getStoreId(), new Post<>(PostCommand.DELETE, List.of(request)));
+        template.convertAndSend(SpringDests.scheduleTemplateSub + request.getStoreId(), new Post<>(PostCommand.DELETE, List.of(request)));
         return true;
     }
 
@@ -90,7 +90,7 @@ public class WebSocketRequest {
     public boolean setScheduleTemplate(@Payload Map<String,Object> params) {
         ScheduleTemplate schedule = persistence.setScheduleTemplate(jdbcTemplate, ScheduleTemplate.fromJson(params));
         if(schedule == null) return false;
-        template.convertAndSend(SpringDestinations.scheduleTemplateSubscription + schedule.getStoreId(), new Post<>(PostCommand.DELETE, List.of(schedule)));
+        template.convertAndSend(SpringDests.shiftTemplateSub + schedule.getStoreId(), new Post<>(PostCommand.DELETE, List.of(schedule)));
         return true;
     }
 }

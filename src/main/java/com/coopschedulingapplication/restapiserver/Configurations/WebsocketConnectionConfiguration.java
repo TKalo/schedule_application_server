@@ -1,5 +1,6 @@
 package com.coopschedulingapplication.restapiserver.Configurations;
 
+import com.coopschedulingapplication.restapiserver.SpringDests;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Configuration;
@@ -95,13 +96,13 @@ public class WebsocketConnectionConfiguration implements WebSocketMessageBrokerC
 
     @Override
     public void configureMessageBroker(MessageBrokerRegistry config) {
-        config.enableSimpleBroker("/app","/user");
-        config.setApplicationDestinationPrefixes("/app","/user");
-        config.setUserDestinationPrefix("/user");
+        config.enableSimpleBroker(SpringDests.app, SpringDests.user);
+        config.setApplicationDestinationPrefixes(SpringDests.app, SpringDests.user);
+        config.setUserDestinationPrefix(SpringDests.user);
     }
 
     @Override
     public void registerStompEndpoints(StompEndpointRegistry config) {
-        config.addEndpoint("/schedule-application-websocket").setAllowedOrigins("*");
+        config.addEndpoint(SpringDests.endPoint).setAllowedOrigins("*");
     }
 }

@@ -1,5 +1,7 @@
-package com.coopschedulingapplication.restapiserver;
+package com.coopschedulingapplication.restapiserver.persistence;
 
+import com.coopschedulingapplication.restapiserver.ConnectionObjects.DepartmentCreationValues;
+import com.coopschedulingapplication.restapiserver.ConnectionObjects.WorkerCreationValues;
 import com.coopschedulingapplication.restapiserver.DataObjects.*;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
@@ -11,6 +13,7 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 public class PostgresHandler implements IPersistence {
+
     @Override
     public WorkerCreationRequest addWorkerCreationRequest(NamedParameterJdbcTemplate jdbcTemplate, WorkerCreationRequest request, Principal principal) {
         try {
@@ -140,6 +143,25 @@ public class PostgresHandler implements IPersistence {
     }
 
     @Override
+    public SchedulePreferences setSchedulePreferences(NamedParameterJdbcTemplate jdbcTemplate, SchedulePreferences preferences) {
+        try {
+            MapSqlParameterSource map = new MapSqlParameterSource();
+            map.addValue("user_id", preferences.getUserId(), Types.INTEGER);
+            map.addValue("pref_week_days", preferences.getPrefWeekDays(), Types.INTEGER);
+            map.addValue("max_week_days", preferences.getMaxWeekDays(), Types.INTEGER);
+
+            Map<String, Object> sqlReturn = jdbcTemplate.queryForMap("UPDATE schedule_preferences SET pref_week_days = :pref_week_days, max_week_days=:max_week_days WHERE user_id = :user_id RETURNING *",map);
+            sqlReturn.put("userId",sqlReturn.get("user_id"));
+            sqlReturn.put("prefWeekDays",sqlReturn.get("pref_week_days"));
+            sqlReturn.put("maxWeekDays",sqlReturn.get("max_week_days"));
+            return SchedulePreferences.fromJson(sqlReturn);
+        }catch (Exception e){
+            System.err.println(e.getMessage());
+            return null;
+        }
+    }
+
+    @Override
     public User getUser(NamedParameterJdbcTemplate jdbcTemplate, int userId) {
         Map<String, Object> sqlReturn = jdbcTemplate.queryForMap("SELECT * FROM user_table WHERE id=:id", Map.of("id",userId));
         sqlReturn.put("storeId",sqlReturn.get("store_id"));
@@ -185,5 +207,31 @@ public class PostgresHandler implements IPersistence {
         return ScheduleTemplate.fromJson(sqlReturn);
     }
 
+    @Override
+    public void addWorker(NamedParameterJdbcTemplate jdbcTemplate, WorkerCreationValues values) {
+        MapSqlParameterSource map = new MapSqlParameterSource();
+        map.addValue("name", values.getName(), Types.VARCHAR);
+        map.addValue("email", values.getName(), Types.VARCHAR);
+        map.addValue("password", values.getName(), Types.VARCHAR);
+        map.addValue("key", values.getName(), Types.VARCHAR);
 
+        jdbcTemplate.queryForMap(
+                "WITH " +
+                        "request_values(temp_store_id, temp_user_type) AS ((SELECT store_id,type FROM worker_creation_request WHERE key = :key))," +
+                        "temp_user_id(id) AS (INSERT INTO user_table (name, email, password, store_id, type) VALUES(:name, :email, :password, (SELECT temp_store_id FROM request_values), (SELECT temp_user_type FROM request_values)) RETURNING id)" +
+                        "INSERT INTO schedule_preferences (user_id) VALUES((SELECT id FROM temp_user_id));",map);
+
+    }
+
+    @Override
+    public void addDepartment(NamedParameterJdbcTemplate jdbcTemplate, DepartmentCreationValues values) {
+        MapSqlParameterSource map = new MapSqlParameterSource();
+        map.addValue("name", values.getName(), Types.VARCHAR);
+        map.addValue("email", values.getName(), Types.VARCHAR);
+        map.addValue("password", values.getName(), Types.VARCHAR);
+        map.addValue("address", values.getName(), Types.VARCHAR);
+        map.addValue("city", values.getName(), Types.VARCHAR);
+
+        jdbcTemplate.update("INSERT INTO store_employee (name, email, password, store_department_id, type) VALUES(:name, :email, :password, (INSERT INTO store (address, city) VALUES(:address, :city) RETURNING id), 'administrator')",map);
+    }
 }

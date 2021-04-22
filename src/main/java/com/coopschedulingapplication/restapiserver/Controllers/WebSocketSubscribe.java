@@ -1,8 +1,8 @@
 package com.coopschedulingapplication.restapiserver.Controllers;
 
 import com.coopschedulingapplication.restapiserver.DataObjects.*;
-import com.coopschedulingapplication.restapiserver.IPersistence;
-import com.coopschedulingapplication.restapiserver.PostgresHandler;
+import com.coopschedulingapplication.restapiserver.persistence.IPersistence;
+import com.coopschedulingapplication.restapiserver.persistence.PostgresHandler;
 import com.coopschedulingapplication.restapiserver.StompEntities.Post;
 import com.coopschedulingapplication.restapiserver.StompEntities.PostCommand;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,7 +15,6 @@ import org.springframework.stereotype.Controller;
 
 import java.security.Principal;
 import java.util.List;
-import java.util.Map;
 
 @Controller
 @MessageMapping("/subscribe")

@@ -1,5 +1,7 @@
-package com.coopschedulingapplication.restapiserver;
+package com.coopschedulingapplication.restapiserver.persistence;
 
+import com.coopschedulingapplication.restapiserver.ConnectionObjects.DepartmentCreationValues;
+import com.coopschedulingapplication.restapiserver.ConnectionObjects.WorkerCreationValues;
 import com.coopschedulingapplication.restapiserver.DataObjects.*;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 
@@ -17,6 +19,7 @@ public interface IPersistence {
     ShiftTemplate deleteShiftTemplate(NamedParameterJdbcTemplate jdbcTemplate, ShiftTemplate template);
 
     ScheduleTemplate setScheduleTemplate(NamedParameterJdbcTemplate jdbcTemplate, ScheduleTemplate template);
+    SchedulePreferences setSchedulePreferences(NamedParameterJdbcTemplate jdbcTemplate, SchedulePreferences preferences);
 
     User getUser(NamedParameterJdbcTemplate jdbcTemplate, int userId);
     Store getUserStore(NamedParameterJdbcTemplate jdbcTemplate, int userId);
@@ -24,4 +27,6 @@ public interface IPersistence {
     List<WorkerCreationRequest> getStoreWorkerCreationRequests(NamedParameterJdbcTemplate jdbcTemplate, int storeId);
     ScheduleTemplate getStoreScheduleTemplate(NamedParameterJdbcTemplate jdbcTemplate, int storeId);
 
+    void addWorker(NamedParameterJdbcTemplate jdbcTemplate, WorkerCreationValues values);
+    void addDepartment(NamedParameterJdbcTemplate jdbcTemplate, DepartmentCreationValues values);
 }
