@@ -1,5 +1,6 @@
 package com.coopschedulingapplication.restapiserver.Controllers;
 
+import com.coopschedulingapplication.restapiserver.DataObjects.SchedulePreferences;
 import com.coopschedulingapplication.restapiserver.DataObjects.ScheduleTemplate;
 import com.coopschedulingapplication.restapiserver.DataObjects.ShiftTemplate;
 import com.coopschedulingapplication.restapiserver.DataObjects.WorkerCreationRequest;
@@ -90,7 +91,15 @@ public class WebSocketRequest {
     public boolean setScheduleTemplate(@Payload Map<String,Object> params) {
         ScheduleTemplate schedule = persistence.setScheduleTemplate(jdbcTemplate, ScheduleTemplate.fromJson(params));
         if(schedule == null) return false;
-        template.convertAndSend(SpringDests.shiftTemplateSub + schedule.getStoreId(), new Post<>(PostCommand.DELETE, List.of(schedule)));
+        template.convertAndSend(SpringDests.scheduleTemplate + schedule.getStoreId(), new Post<>(PostCommand.DELETE, List.of(schedule)));
+        return true;
+    }
+
+    @MessageMapping(SpringDests.schedulePreferences + SpringDests.update)
+    public boolean setSchedulePreferences(@Payload Map<String,Object> params) {
+        SchedulePreferences preferences = persistence.setSchedulePreferences(jdbcTemplate, SchedulePreferences.fromJson(params));
+        if(preferences == null) return false;
+        template.convertAndSend(SpringDests.schedulePreferencesSub + preferences.getUserId(), new Post<>(PostCommand.DELETE, List.of(preferences)));
         return true;
     }
 }

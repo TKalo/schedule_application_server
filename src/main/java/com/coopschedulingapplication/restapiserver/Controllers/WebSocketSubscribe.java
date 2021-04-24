@@ -31,17 +31,22 @@ public class WebSocketSubscribe {
 
     @SubscribeMapping(SpringDests.scheduleTemplate + SpringDests.storeIdValue)
     public Post<ScheduleTemplate> getScheduleTemplate(@DestinationVariable String storeId) {
-        return new Post<>(PostCommand.ADD, List.of(persistence.getStoreScheduleTemplate(jdbcTemplate,Integer.parseInt(storeId))));
+        return new Post<>(PostCommand.ADD, List.of(persistence.getScheduleTemplateStore(jdbcTemplate,Integer.parseInt(storeId))));
     }
 
     @SubscribeMapping(SpringDests.workerCreationRequest + SpringDests.storeIdValue)
     public Post<WorkerCreationRequest> getWorkerCreationRequests(@DestinationVariable String storeId) {
-        return new Post<>(PostCommand.ADD, persistence.getStoreWorkerCreationRequests(jdbcTemplate,Integer.parseInt(storeId)));
+        return new Post<>(PostCommand.ADD, persistence.getWorkerCreationRequestsStore(jdbcTemplate,Integer.parseInt(storeId)));
     }
 
     @SubscribeMapping(SpringDests.shiftTemplate + SpringDests.storeIdValue)
     public Post<ShiftTemplate> getShiftTemplateRequests(@DestinationVariable String storeId) {
-        return new Post<>(PostCommand.ADD, persistence.getStoreShiftTemplates(jdbcTemplate,Integer.parseInt(storeId)));
+        return new Post<>(PostCommand.ADD, persistence.getShiftTemplatesStore(jdbcTemplate,Integer.parseInt(storeId)));
+    }
+
+    @SubscribeMapping(SpringDests.shiftTemplate + SpringDests.userIdValue)
+    public Post<SchedulePreferences> getSchedulePreferences(@DestinationVariable String userId) {
+        return new Post<>(PostCommand.ADD, List.of(persistence.getSchedulePreferencesUser(jdbcTemplate,Integer.parseInt(userId))));
     }
 
     @SubscribeMapping(SpringDests.currentUser)

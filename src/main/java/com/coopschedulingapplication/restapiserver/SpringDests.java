@@ -27,12 +27,16 @@ public class SpringDests {
     public static final String worker ="/worker";
     public static final String currentUser = "/currentUser";
     public static final String currentStore = "/currentStore";
+    public static final String schedulePreferences = "/schedulePreferences";
 
     //subscriptions
-    public static final String userCreationRequestSub = SpringDests.app + SpringDests.subscribe + SpringDests.shiftTemplate;
-    public static final String scheduleTemplateSub = SpringDests.app + SpringDests.subscribe + SpringDests.shiftTemplate;
+    public static final String userCreationRequestSub = SpringDests.app + SpringDests.subscribe + SpringDests.workerCreationRequest;
+    public static final String scheduleTemplateSub = SpringDests.app + SpringDests.subscribe + SpringDests.scheduleTemplate;
     public static final String shiftTemplateSub = SpringDests.app + SpringDests.subscribe + SpringDests.shiftTemplate;
+    public static final String schedulePreferencesSub = SpringDests.app + SpringDests.subscribe + SpringDests.schedulePreferences;
+
 
     //destination values
     public static final String storeIdValue = "/{storeId}";
+    public static final String userIdValue = "/{userId}";
 }

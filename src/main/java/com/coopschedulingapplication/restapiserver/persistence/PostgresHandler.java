@@ -59,6 +59,15 @@ public class PostgresHandler implements IPersistence {
     }
 
     @Override
+    public List<WorkerCreationRequest> getWorkerCreationRequestsStore(NamedParameterJdbcTemplate jdbcTemplate, int storeId) {
+        List<Map<String, Object>> sqlReturn = jdbcTemplate.queryForList("SELECT * FROM worker_creation_request WHERE store_id=:store_id", Map.of("store_id", storeId));
+        return sqlReturn.stream().map(json -> {
+            json.put("storeId",json.get("store_id"));
+            return WorkerCreationRequest.fromJson(json);
+        }).collect(Collectors.toList());
+    }
+
+    @Override
     public ShiftTemplate addShiftTemplate(NamedParameterJdbcTemplate jdbcTemplate, ShiftTemplate template, Principal principal) {
         try {
             MapSqlParameterSource map = new MapSqlParameterSource();
@@ -122,6 +131,20 @@ public class PostgresHandler implements IPersistence {
     }
 
     @Override
+    public List<ShiftTemplate> getShiftTemplatesStore(NamedParameterJdbcTemplate jdbcTemplate, int storeId) {
+        List<Map<String, Object>> sqlReturn = jdbcTemplate.queryForList("SELECT * FROM shift_template WHERE store_id=:store_id", Map.of("store_id", storeId));
+
+        return sqlReturn.stream().map(json -> {
+            json.put("storeId",json.get("store_id"));
+            json.put("weekDay",json.get("week_day"));
+            json.put("startTime",json.get("start_time"));
+            json.put("endTime",json.get("end_time"));
+            json.put("workerType",json.get("worker_type"));
+            return ShiftTemplate.fromJson(json);
+        }).collect(Collectors.toList());
+    }
+
+    @Override
     public ScheduleTemplate setScheduleTemplate(NamedParameterJdbcTemplate jdbcTemplate, ScheduleTemplate template) {
         try {
             MapSqlParameterSource map = new MapSqlParameterSource();
@@ -140,6 +163,16 @@ public class PostgresHandler implements IPersistence {
             System.err.println(e.getMessage());
             return null;
         }
+    }
+
+    @Override
+    public ScheduleTemplate getScheduleTemplateStore(NamedParameterJdbcTemplate jdbcTemplate, int storeId) {
+        Map<String, Object> sqlReturn = jdbcTemplate.queryForMap("SELECT * FROM schedule_template WHERE store_id=:store_id",Map.of("store_id",storeId));
+        sqlReturn.put("storeId",sqlReturn.get("store_id"));
+        sqlReturn.put("preferenceDeadline",sqlReturn.get("preference_deadline"));
+        sqlReturn.put("creationDeadline",sqlReturn.get("creation_deadline"));
+        sqlReturn.put("initiationDeadline",sqlReturn.get("initiation_deadline"));
+        return ScheduleTemplate.fromJson(sqlReturn);
     }
 
     @Override
@@ -162,6 +195,27 @@ public class PostgresHandler implements IPersistence {
     }
 
     @Override
+    public List<SchedulePreferences> getSchedulePreferencesStore(NamedParameterJdbcTemplate jdbcTemplate, int storeId) {
+        List<Map<String, Object>> sqlReturn = jdbcTemplate.queryForList("SELECT * FROM schedule_preferences WHERE user_id IN (SELECT user_id FROM user_table WHERE store_id = :store_id)",Map.of("store_id",storeId));
+
+        return sqlReturn.stream().map(map -> {
+            map.put("UserId",map.get("user_id"));
+            map.put("prefWeekDays",map.get("pref_week_days"));
+            map.put("maxWeekDays",map.get("max_week_days"));
+            return SchedulePreferences.fromJson(map);
+        }).collect(Collectors.toList());
+    }
+
+    @Override
+    public SchedulePreferences getSchedulePreferencesUser(NamedParameterJdbcTemplate jdbcTemplate, int userId) {
+        Map<String, Object> sqlReturn = jdbcTemplate.queryForMap("SELECT * FROM schedule_preferences WHERE user_id=:user_id",Map.of("user_id",userId));
+        sqlReturn.put("UserId",sqlReturn.get("user_id"));
+        sqlReturn.put("prefWeekDays",sqlReturn.get("pref_week_days"));
+        sqlReturn.put("maxWeekDays",sqlReturn.get("max_week_days"));
+        return SchedulePreferences.fromJson(sqlReturn);
+    }
+
+    @Override
     public User getUser(NamedParameterJdbcTemplate jdbcTemplate, int userId) {
         Map<String, Object> sqlReturn = jdbcTemplate.queryForMap("SELECT * FROM user_table WHERE id=:id", Map.of("id",userId));
         sqlReturn.put("storeId",sqlReturn.get("store_id"));
@@ -172,39 +226,6 @@ public class PostgresHandler implements IPersistence {
     public Store getUserStore(NamedParameterJdbcTemplate jdbcTemplate, int userId) {
         Map<String, Object> sqlReturn = jdbcTemplate.queryForMap("SELECT * FROM store WHERE id=(SELECT store_id FROM user_table WHERE id=:user_id)", Map.of("user_id", userId));
         return Store.fromJson(sqlReturn);
-    }
-
-    @Override
-    public List<ShiftTemplate> getStoreShiftTemplates(NamedParameterJdbcTemplate jdbcTemplate, int storeId) {
-        List<Map<String, Object>> sqlReturn = jdbcTemplate.queryForList("SELECT * FROM shift_template WHERE store_id=:store_id", Map.of("store_id", storeId));
-
-        return sqlReturn.stream().map(json -> {
-            json.put("storeId",json.get("store_id"));
-            json.put("weekDay",json.get("week_day"));
-            json.put("startTime",json.get("start_time"));
-            json.put("endTime",json.get("end_time"));
-            json.put("workerType",json.get("worker_type"));
-            return ShiftTemplate.fromJson(json);
-        }).collect(Collectors.toList());
-    }
-
-    @Override
-    public List<WorkerCreationRequest> getStoreWorkerCreationRequests(NamedParameterJdbcTemplate jdbcTemplate, int storeId) {
-        List<Map<String, Object>> sqlReturn = jdbcTemplate.queryForList("SELECT * FROM worker_creation_request WHERE store_id=:store_id", Map.of("store_id", storeId));
-        return sqlReturn.stream().map(json -> {
-            json.put("storeId",json.get("store_id"));
-            return WorkerCreationRequest.fromJson(json);
-        }).collect(Collectors.toList());
-    }
-
-    @Override
-    public ScheduleTemplate getStoreScheduleTemplate(NamedParameterJdbcTemplate jdbcTemplate, int storeId) {
-        Map<String, Object> sqlReturn = jdbcTemplate.queryForMap("SELECT * FROM schedule_template WHERE store_id=:store_id",Map.of("store_id",storeId));
-        sqlReturn.put("storeId",sqlReturn.get("store_id"));
-        sqlReturn.put("preferenceDeadline",sqlReturn.get("preference_deadline"));
-        sqlReturn.put("creationDeadline",sqlReturn.get("creation_deadline"));
-        sqlReturn.put("initiationDeadline",sqlReturn.get("initiation_deadline"));
-        return ScheduleTemplate.fromJson(sqlReturn);
     }
 
     @Override
@@ -232,6 +253,6 @@ public class PostgresHandler implements IPersistence {
         map.addValue("address", values.getName(), Types.VARCHAR);
         map.addValue("city", values.getName(), Types.VARCHAR);
 
-        jdbcTemplate.update("INSERT INTO store_employee (name, email, password, store_department_id, type) VALUES(:name, :email, :password, (INSERT INTO store (address, city) VALUES(:address, :city) RETURNING id), 'administrator')",map);
+        jdbcTemplate.update("INSERT INTO user_table (name, email, password, store_id, type) VALUES(:name, :email, :password, (INSERT INTO store (address, city) VALUES(:address, :city) RETURNING id), 'administrator')",map);
     }
 }
