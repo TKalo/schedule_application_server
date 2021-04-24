@@ -27,7 +27,8 @@ public class WebSocketSubscribe {
     @Autowired
     NamedParameterJdbcTemplate jdbcTemplate;
 
-    IPersistence persistence = new PostgresHandler();
+    @Autowired
+    PostgresHandler persistence;
 
     @SubscribeMapping(SpringDests.scheduleTemplate + SpringDests.storeIdValue)
     public Post<ScheduleTemplate> getScheduleTemplate(@DestinationVariable String storeId) {

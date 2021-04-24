@@ -16,11 +16,17 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 
+@Component
 public class PostgresHandler implements IPersistence {
 
 
     NamedParameterJdbcTemplate jdbcTemplate;
-    
+
+    @Autowired
+    public void setJdbcTemplate(NamedParameterJdbcTemplate jdbcTemplate) {
+        this.jdbcTemplate = jdbcTemplate;
+    }
+
     @Override
     public WorkerCreationRequest addWorkerCreationRequest(WorkerCreationRequest request, Principal principal) {
         try {

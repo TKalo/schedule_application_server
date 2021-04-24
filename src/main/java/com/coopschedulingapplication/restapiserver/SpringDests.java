@@ -3,7 +3,7 @@ package com.coopschedulingapplication.restapiserver;
 public class SpringDests {
 
     //prefixes
-    public static final String endPoint = "/websocket-endpoint";
+    public static final String endPoint = "/schedule-application-websocket";
     public static final String app = "/app";
     public static final String user = "/user";
 

@@ -7,7 +7,6 @@ import com.coopschedulingapplication.restapiserver.DataObjects.WorkerCreationReq
 import com.coopschedulingapplication.restapiserver.SpringDests;
 import com.coopschedulingapplication.restapiserver.StompEntities.Post;
 import com.coopschedulingapplication.restapiserver.StompEntities.PostCommand;
-import com.coopschedulingapplication.restapiserver.persistence.IPersistence;
 import com.coopschedulingapplication.restapiserver.persistence.PostgresHandler;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.handler.annotation.MessageMapping;
@@ -27,7 +26,8 @@ public class WebSocketRequest {
     @Autowired
     SimpMessagingTemplate template;
 
-    IPersistence persistence = new PostgresHandler();
+    @Autowired
+    PostgresHandler persistence;
 
     @MessageMapping(SpringDests.workerCreationRequest + SpringDests.add)
     @SendToUser
