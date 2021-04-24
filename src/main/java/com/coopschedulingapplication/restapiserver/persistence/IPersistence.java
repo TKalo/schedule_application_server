@@ -10,26 +10,26 @@ import java.util.List;
 
 public interface IPersistence {
 
-    WorkerCreationRequest addWorkerCreationRequest(NamedParameterJdbcTemplate jdbcTemplate, WorkerCreationRequest request, Principal principal);
-    WorkerCreationRequest acceptWorkerCreationRequest(NamedParameterJdbcTemplate jdbcTemplate, WorkerCreationRequest request);
-    WorkerCreationRequest deleteWorkerCreationRequest(NamedParameterJdbcTemplate jdbcTemplate, WorkerCreationRequest request);
-    List<WorkerCreationRequest> getWorkerCreationRequestsStore(NamedParameterJdbcTemplate jdbcTemplate, int storeId);
+    WorkerCreationRequest addWorkerCreationRequest(WorkerCreationRequest request, Principal principal);
+    WorkerCreationRequest acceptWorkerCreationRequest(WorkerCreationRequest request);
+    WorkerCreationRequest deleteWorkerCreationRequest(WorkerCreationRequest request);
+    List<WorkerCreationRequest> getWorkerCreationRequestsStore(int storeId);
 
-    ShiftTemplate addShiftTemplate(NamedParameterJdbcTemplate jdbcTemplate, ShiftTemplate template, Principal principal);
-    ShiftTemplate updateShiftTemplate(NamedParameterJdbcTemplate jdbcTemplate, ShiftTemplate template);
-    ShiftTemplate deleteShiftTemplate(NamedParameterJdbcTemplate jdbcTemplate, ShiftTemplate template);
-    List<ShiftTemplate> getShiftTemplatesStore(NamedParameterJdbcTemplate jdbcTemplate, int storeId);
+    ShiftTemplate addShiftTemplate(ShiftTemplate template, Principal principal);
+    ShiftTemplate updateShiftTemplate(ShiftTemplate template);
+    ShiftTemplate deleteShiftTemplate(ShiftTemplate template);
+    List<ShiftTemplate> getShiftTemplatesStore(int storeId);
 
-    ScheduleTemplate setScheduleTemplate(NamedParameterJdbcTemplate jdbcTemplate, ScheduleTemplate template);
-    ScheduleTemplate getScheduleTemplateStore(NamedParameterJdbcTemplate jdbcTemplate, int storeId);
+    ScheduleTemplate setScheduleTemplate(ScheduleTemplate template);
+    ScheduleTemplate getScheduleTemplateStore(int storeId);
 
-    SchedulePreferences setSchedulePreferences(NamedParameterJdbcTemplate jdbcTemplate, SchedulePreferences preferences);
-    List<SchedulePreferences> getSchedulePreferencesStore(NamedParameterJdbcTemplate jdbcTemplate, int userId);
-    SchedulePreferences getSchedulePreferencesUser(NamedParameterJdbcTemplate jdbcTemplate, int userId);
+    SchedulePreferences setSchedulePreferences(SchedulePreferences preferences);
+    List<SchedulePreferences> getSchedulePreferencesStore(int userId);
+    SchedulePreferences getSchedulePreferencesUser(int userId);
 
-    User getUser(NamedParameterJdbcTemplate jdbcTemplate, int userId);
-    Store getUserStore(NamedParameterJdbcTemplate jdbcTemplate, int userId);
+    User getUser(int userId);
+    Store getUserStore(int userId);
 
-    void addWorker(NamedParameterJdbcTemplate jdbcTemplate, WorkerCreationValues values);
-    void addDepartment(NamedParameterJdbcTemplate jdbcTemplate, DepartmentCreationValues values);
+    void addWorker(WorkerCreationValues values);
+    void addDepartment(DepartmentCreationValues values);
 }

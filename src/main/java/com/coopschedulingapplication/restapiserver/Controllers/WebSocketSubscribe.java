@@ -31,31 +31,31 @@ public class WebSocketSubscribe {
 
     @SubscribeMapping(SpringDests.scheduleTemplate + SpringDests.storeIdValue)
     public Post<ScheduleTemplate> getScheduleTemplate(@DestinationVariable String storeId) {
-        return new Post<>(PostCommand.ADD, List.of(persistence.getScheduleTemplateStore(jdbcTemplate,Integer.parseInt(storeId))));
+        return new Post<>(PostCommand.ADD, List.of(persistence.getScheduleTemplateStore(Integer.parseInt(storeId))));
     }
 
     @SubscribeMapping(SpringDests.workerCreationRequest + SpringDests.storeIdValue)
     public Post<WorkerCreationRequest> getWorkerCreationRequests(@DestinationVariable String storeId) {
-        return new Post<>(PostCommand.ADD, persistence.getWorkerCreationRequestsStore(jdbcTemplate,Integer.parseInt(storeId)));
+        return new Post<>(PostCommand.ADD, persistence.getWorkerCreationRequestsStore(Integer.parseInt(storeId)));
     }
 
     @SubscribeMapping(SpringDests.shiftTemplate + SpringDests.storeIdValue)
     public Post<ShiftTemplate> getShiftTemplateRequests(@DestinationVariable String storeId) {
-        return new Post<>(PostCommand.ADD, persistence.getShiftTemplatesStore(jdbcTemplate,Integer.parseInt(storeId)));
+        return new Post<>(PostCommand.ADD, persistence.getShiftTemplatesStore(Integer.parseInt(storeId)));
     }
 
-    @SubscribeMapping(SpringDests.shiftTemplate + SpringDests.userIdValue)
+    @SubscribeMapping(SpringDests.schedulePreferences + SpringDests.userIdValue)
     public Post<SchedulePreferences> getSchedulePreferences(@DestinationVariable String userId) {
-        return new Post<>(PostCommand.ADD, List.of(persistence.getSchedulePreferencesUser(jdbcTemplate,Integer.parseInt(userId))));
+        return new Post<>(PostCommand.ADD, List.of(persistence.getSchedulePreferencesUser(Integer.parseInt(userId))));
     }
 
     @SubscribeMapping(SpringDests.currentUser)
     public User getCurrentUser(Principal principal){
-        return persistence.getUser(jdbcTemplate,Integer.parseInt(principal.getName()));
+        return persistence.getUser(Integer.parseInt(principal.getName()));
     }
 
     @SubscribeMapping(SpringDests.currentStore)
     public Store getCurrentStore(Principal principal) {
-        return persistence.getUserStore(jdbcTemplate,Integer.parseInt(principal.getName()));
+        return persistence.getUserStore(Integer.parseInt(principal.getName()));
     }
 }

@@ -18,14 +18,7 @@ import java.util.Map;
 @CrossOrigin(origins = "*")
 public class RestApiController {
 
-
-    @Autowired
-    NamedParameterJdbcTemplate jdbcTemplate;
-
     String error;
-
-    @Autowired
-    SimpMessagingTemplate template;
 
     IPersistence persistence = new PostgresHandler();
 
@@ -38,14 +31,14 @@ public class RestApiController {
     @Transactional
     @PostMapping(SpringDests.add + SpringDests.department)
     public void addDepartment(@RequestBody Map<String,Object> json){
-        persistence.addDepartment(jdbcTemplate, DepartmentCreationValues.fromJson(json));
+        persistence.addDepartment(DepartmentCreationValues.fromJson(json));
     }
 
     @Transactional
     @PostMapping(SpringDests.add + SpringDests.worker)
     public void addWorker(@RequestBody Map<String,Object> json) {
         error = "found no match for provided key";
-        persistence.addWorker(jdbcTemplate, WorkerCreationValues.fromJson(json));
+        persistence.addWorker(WorkerCreationValues.fromJson(json));
     }
 
     @ExceptionHandler({Exception.class})

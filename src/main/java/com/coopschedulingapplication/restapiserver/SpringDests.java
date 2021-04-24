@@ -3,7 +3,7 @@ package com.coopschedulingapplication.restapiserver;
 public class SpringDests {
 
     //prefixes
-    public static final String endPoint = "/app";
+    public static final String endPoint = "/websocket-endpoint";
     public static final String app = "/app";
     public static final String user = "/user";
 
@@ -13,16 +13,16 @@ public class SpringDests {
 
     //request types
     public static final String add = "/add";
-    public static final String update = "/add";
-    public static final String delete = "/add";
-    public static final String accept = "/add";
-    public static final String decline = "/add";
+    public static final String update = "/update";
+    public static final String delete = "/delete";
+    public static final String accept = "/accept";
+    public static final String decline = "/decline";
 
     //data objects
     public static final String workerCreationRequest = "/workerCreationRequest";
     public static final String scheduleTemplate = "/scheduleTemplate";
     public static final String shiftTemplate = "/shiftTemplate";
-    public static final String chain ="/department";
+    public static final String chain ="/chain";
     public static final String department ="/department";
     public static final String worker ="/worker";
     public static final String currentUser = "/currentUser";
