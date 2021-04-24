@@ -32,7 +32,7 @@ public class WebSocketRequest {
 
     IPersistence persistence = new PostgresHandler();
 
-    @MessageMapping("/addWorkerCreationRequest")
+    @MessageMapping(SpringDests.workerCreationRequest + SpringDests.add)
     @SendToUser
     public boolean addWorkerCreationRequest(@Payload Map<String,Object> params, Principal principal){
         WorkerCreationRequest request = persistence.addWorkerCreationRequest(jdbcTemplate, WorkerCreationRequest.fromJson(params),principal);
@@ -41,7 +41,7 @@ public class WebSocketRequest {
         return true;
     }
 
-    @MessageMapping("/acceptWorkerCreationRequest")
+    @MessageMapping(SpringDests.workerCreationRequest + SpringDests.accept)
     @SendToUser
     public boolean acceptWorkerCreationRequest(@Payload Map<String, Object> params){
         WorkerCreationRequest request = persistence.acceptWorkerCreationRequest(jdbcTemplate,WorkerCreationRequest.fromJson(params));
@@ -50,7 +50,7 @@ public class WebSocketRequest {
         return true;
     }
 
-    @MessageMapping("/deleteWorkerCreationRequest")
+    @MessageMapping(SpringDests.workerCreationRequest + SpringDests.delete)
     @SendToUser
     public boolean deleteWorkerCreationRequest(@Payload Map<String, Object> params){
         WorkerCreationRequest request = persistence.deleteWorkerCreationRequest(jdbcTemplate,WorkerCreationRequest.fromJson(params));
@@ -59,7 +59,7 @@ public class WebSocketRequest {
         return true;
     }
 
-    @MessageMapping("/addShiftTemplate")
+    @MessageMapping(SpringDests.shiftTemplate + SpringDests.add)
     @SendToUser
     public boolean addShiftTemplate(@Payload Map<String,Object> params, Principal principal){
         ShiftTemplate request = persistence.addShiftTemplate(jdbcTemplate,ShiftTemplate.fromJson(params),principal);
@@ -68,7 +68,7 @@ public class WebSocketRequest {
         return true;
     }
 
-    @MessageMapping("/updateShiftTemplate")
+    @MessageMapping(SpringDests.shiftTemplate + SpringDests.update)
     @SendToUser
     public boolean updateShiftTemplate(@Payload Map<String, Object> params){
         ShiftTemplate request = persistence.updateShiftTemplate(jdbcTemplate,ShiftTemplate.fromJson(params));
@@ -77,7 +77,7 @@ public class WebSocketRequest {
         return true;
     }
 
-    @MessageMapping("/deleteShiftTemplate")
+    @MessageMapping(SpringDests.shiftTemplate + SpringDests.delete)
     @SendToUser
     public boolean deleteShiftTemplate(@Payload Map<String, Object> params){
         ShiftTemplate request = persistence.deleteShiftTemplate(jdbcTemplate, ShiftTemplate.fromJson(params));
@@ -86,7 +86,7 @@ public class WebSocketRequest {
         return true;
     }
 
-    @MessageMapping("/setScheduleTemplate")
+    @MessageMapping(SpringDests.scheduleTemplate + SpringDests.update)
     public boolean setScheduleTemplate(@Payload Map<String,Object> params) {
         ScheduleTemplate schedule = persistence.setScheduleTemplate(jdbcTemplate, ScheduleTemplate.fromJson(params));
         if(schedule == null) return false;

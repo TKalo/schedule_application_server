@@ -19,16 +19,20 @@ public class SpringDests {
     public static final String decline = "/add";
 
     //data objects
-    public static final String userCreationRequests = "/userCreationRequests";
+    public static final String workerCreationRequest = "/workerCreationRequest";
     public static final String scheduleTemplate = "/scheduleTemplate";
     public static final String shiftTemplate = "/shiftTemplate";
     public static final String chain ="/department";
     public static final String department ="/department";
     public static final String worker ="/worker";
+    public static final String currentUser = "/currentUser";
+    public static final String currentStore = "/currentStore";
 
     //subscriptions
     public static final String userCreationRequestSub = SpringDests.app + SpringDests.subscribe + SpringDests.shiftTemplate;
     public static final String scheduleTemplateSub = SpringDests.app + SpringDests.subscribe + SpringDests.shiftTemplate;
     public static final String shiftTemplateSub = SpringDests.app + SpringDests.subscribe + SpringDests.shiftTemplate;
 
+    //destination values
+    public static final String storeIdValue = "/{storeId}";
 }

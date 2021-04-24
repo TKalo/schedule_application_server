@@ -1,6 +1,7 @@
 package com.coopschedulingapplication.restapiserver.Controllers;
 
 import com.coopschedulingapplication.restapiserver.DataObjects.*;
+import com.coopschedulingapplication.restapiserver.SpringDests;
 import com.coopschedulingapplication.restapiserver.persistence.IPersistence;
 import com.coopschedulingapplication.restapiserver.persistence.PostgresHandler;
 import com.coopschedulingapplication.restapiserver.StompEntities.Post;
@@ -17,7 +18,7 @@ import java.security.Principal;
 import java.util.List;
 
 @Controller
-@MessageMapping("/subscribe")
+@MessageMapping(SpringDests.subscribe)
 public class WebSocketSubscribe {
 
     @Autowired
@@ -28,31 +29,28 @@ public class WebSocketSubscribe {
 
     IPersistence persistence = new PostgresHandler();
 
-    @SubscribeMapping("/scheduleTemplate/{storeId}")
+    @SubscribeMapping(SpringDests.scheduleTemplate + SpringDests.storeIdValue)
     public Post<ScheduleTemplate> getScheduleTemplate(@DestinationVariable String storeId) {
-        System.out.println("/subscribe/scheduleTemplate");
         return new Post<>(PostCommand.ADD, List.of(persistence.getStoreScheduleTemplate(jdbcTemplate,Integer.parseInt(storeId))));
     }
 
-    @SubscribeMapping("/userCreationRequests/{storeId}")
-    public Post<WorkerCreationRequest> getUserCreationRequests(@DestinationVariable String storeId) {
-        System.out.println("/subscribe/userCreationRequests");
+    @SubscribeMapping(SpringDests.workerCreationRequest + SpringDests.storeIdValue)
+    public Post<WorkerCreationRequest> getWorkerCreationRequests(@DestinationVariable String storeId) {
         return new Post<>(PostCommand.ADD, persistence.getStoreWorkerCreationRequests(jdbcTemplate,Integer.parseInt(storeId)));
     }
 
-    @SubscribeMapping("/shiftTemplate/{storeId}")
+    @SubscribeMapping(SpringDests.shiftTemplate + SpringDests.storeIdValue)
     public Post<ShiftTemplate> getShiftTemplateRequests(@DestinationVariable String storeId) {
-        System.out.println("/subscribe/shiftTemplate");
         return new Post<>(PostCommand.ADD, persistence.getStoreShiftTemplates(jdbcTemplate,Integer.parseInt(storeId)));
     }
 
-    @SubscribeMapping("/currentUser")
+    @SubscribeMapping(SpringDests.currentUser)
     public User getCurrentUser(Principal principal){
         return persistence.getUser(jdbcTemplate,Integer.parseInt(principal.getName()));
     }
 
-    @SubscribeMapping("/currentUserStore")
-    public Store getCurrentUserStore(Principal principal) {
+    @SubscribeMapping(SpringDests.currentStore)
+    public Store getCurrentStore(Principal principal) {
         return persistence.getUserStore(jdbcTemplate,Integer.parseInt(principal.getName()));
     }
 }
