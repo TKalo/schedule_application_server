@@ -1,14 +1,17 @@
-package com.coopschedulingapplication.restapiserver.DataObjects;
+package com.coopschedulingapplication.restapiserver.Data.Objects;
+
+import com.coopschedulingapplication.restapiserver.Data.Enums.WeekDay;
+import com.coopschedulingapplication.restapiserver.Data.Enums.WorkerType;
 
 import java.util.Map;
 
 public class ShiftTemplate {
-    Integer id;
-    Integer storeId;
-    Long startTime;
-    Long endTime;
-    WeekDay weekDay;
-    WorkerType workerType;
+    private final Integer id;
+    private final Integer storeId;
+    private final Long startTime;
+    private final Long endTime;
+    private final WeekDay weekDay;
+    private final WorkerType workerType;
 
     public ShiftTemplate(Integer id, Integer storeId, Long startTime, Long endTime, WeekDay weekDay, WorkerType workerType) {
         this.id = id;

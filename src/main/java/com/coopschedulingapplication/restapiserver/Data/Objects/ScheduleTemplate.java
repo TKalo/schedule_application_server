@@ -1,13 +1,13 @@
-package com.coopschedulingapplication.restapiserver.DataObjects;
+package com.coopschedulingapplication.restapiserver.Data.Objects;
 
 import java.util.Map;
 
 public class ScheduleTemplate {
-    Integer storeId;
-    Integer weeks;
-    Long preferenceDeadline;
-    Long creationDeadline;
-    Long initiationDeadline;
+    private final Integer storeId;
+    private final Integer weeks;
+    private final Long preferenceDeadline;
+    private final Long creationDeadline;
+    private final Long initiationDeadline;
 
     public ScheduleTemplate(Integer storeId, Integer weeks, Long preferenceDeadline, Long creationDeadline, Long initiationDeadline) {
         this.storeId = storeId;

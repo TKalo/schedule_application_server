@@ -1,13 +1,16 @@
-package com.coopschedulingapplication.restapiserver.DataObjects;
+package com.coopschedulingapplication.restapiserver.Data.Objects;
+
+import com.coopschedulingapplication.restapiserver.Data.Enums.WorkerCreationStatus;
+import com.coopschedulingapplication.restapiserver.Data.Enums.WorkerType;
 
 import java.util.Map;
 
 public class WorkerCreationRequest {
-    Integer id;
-    Integer storeId;
-    WorkerType type;
-    WorkerCreationStatus status;
-    String key;
+    private final Integer id;
+    private final Integer storeId;
+    private final WorkerType type;
+    private final WorkerCreationStatus status;
+    private final String key;
 
     public WorkerCreationRequest(Integer id, Integer storeId, WorkerType type, WorkerCreationStatus status, String key) {
         this.id = id;
@@ -28,7 +31,7 @@ public class WorkerCreationRequest {
         );
     }
 
-    public int getId() {
+    public Integer getId() {
         return id;
     }
 

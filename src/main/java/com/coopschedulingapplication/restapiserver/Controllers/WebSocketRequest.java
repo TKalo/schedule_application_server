@@ -1,9 +1,6 @@
 package com.coopschedulingapplication.restapiserver.Controllers;
 
-import com.coopschedulingapplication.restapiserver.DataObjects.SchedulePreferences;
-import com.coopschedulingapplication.restapiserver.DataObjects.ScheduleTemplate;
-import com.coopschedulingapplication.restapiserver.DataObjects.ShiftTemplate;
-import com.coopschedulingapplication.restapiserver.DataObjects.WorkerCreationRequest;
+import com.coopschedulingapplication.restapiserver.Data.Objects.*;
 import com.coopschedulingapplication.restapiserver.SpringDests;
 import com.coopschedulingapplication.restapiserver.StompEntities.Post;
 import com.coopschedulingapplication.restapiserver.StompEntities.PostCommand;

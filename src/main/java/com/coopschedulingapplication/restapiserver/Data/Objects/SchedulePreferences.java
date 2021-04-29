@@ -1,11 +1,11 @@
-package com.coopschedulingapplication.restapiserver.DataObjects;
+package com.coopschedulingapplication.restapiserver.Data.Objects;
 
 import java.util.Map;
 
 public class SchedulePreferences {
-    Integer userId;
-    Integer prefWeekDays;
-    Integer maxWeekDays;
+    private final Integer userId;
+    private final Integer prefWeekDays;
+    private final Integer maxWeekDays;
 
 
     public SchedulePreferences(Integer userId, Integer prefWeekDays, Integer maxWeekDays) {

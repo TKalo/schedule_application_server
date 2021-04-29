@@ -1,12 +1,12 @@
-package com.coopschedulingapplication.restapiserver.DataObjects;
+package com.coopschedulingapplication.restapiserver.Data.Objects;
 
 import java.util.Map;
 
 public class Store {
-    Integer id;
-    String address;
-    String city;
-    String key;
+    private final Integer id;
+    private final String address;
+    private final String city;
+    private final String key;
 
     public Store(Integer id, String address, String city, String key) {
         this.id = id;

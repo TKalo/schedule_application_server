@@ -2,12 +2,16 @@ package com.coopschedulingapplication.restapiserver.persistence;
 
 import com.coopschedulingapplication.restapiserver.ConnectionObjects.DepartmentCreationValues;
 import com.coopschedulingapplication.restapiserver.ConnectionObjects.WorkerCreationValues;
-import com.coopschedulingapplication.restapiserver.DataObjects.*;
-import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
+import org.springframework.context.annotation.ComponentScan;
+import org.springframework.stereotype.Component;
 
 import java.security.Principal;
 import java.util.List;
 
+import com.coopschedulingapplication.restapiserver.Data.Objects.*;
+
+@Component
+@ComponentScan
 public interface IPersistence {
 
     WorkerCreationRequest addWorkerCreationRequest(WorkerCreationRequest request, Principal principal);

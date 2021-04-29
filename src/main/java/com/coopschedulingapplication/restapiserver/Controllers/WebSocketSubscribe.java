@@ -1,8 +1,6 @@
 package com.coopschedulingapplication.restapiserver.Controllers;
 
-import com.coopschedulingapplication.restapiserver.DataObjects.*;
 import com.coopschedulingapplication.restapiserver.SpringDests;
-import com.coopschedulingapplication.restapiserver.persistence.IPersistence;
 import com.coopschedulingapplication.restapiserver.persistence.PostgresHandler;
 import com.coopschedulingapplication.restapiserver.StompEntities.Post;
 import com.coopschedulingapplication.restapiserver.StompEntities.PostCommand;
@@ -17,6 +15,8 @@ import org.springframework.stereotype.Controller;
 import java.security.Principal;
 import java.util.List;
 
+import com.coopschedulingapplication.restapiserver.Data.Objects.*;
+
 @Controller
 @MessageMapping(SpringDests.subscribe)
 public class WebSocketSubscribe {
@@ -26,6 +26,7 @@ public class WebSocketSubscribe {
 
     @Autowired
     NamedParameterJdbcTemplate jdbcTemplate;
+
 
     @Autowired
     PostgresHandler persistence;

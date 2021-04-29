@@ -2,9 +2,7 @@ package com.coopschedulingapplication.restapiserver.persistence;
 
 import com.coopschedulingapplication.restapiserver.ConnectionObjects.DepartmentCreationValues;
 import com.coopschedulingapplication.restapiserver.ConnectionObjects.WorkerCreationValues;
-import com.coopschedulingapplication.restapiserver.DataObjects.*;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Configuration;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Component;
@@ -14,6 +12,8 @@ import java.sql.Types;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
+
+import com.coopschedulingapplication.restapiserver.Data.Objects.*;
 
 
 @Component
@@ -95,6 +95,7 @@ public class PostgresHandler implements IPersistence {
             sqlReturn.put("startTime",sqlReturn.get("start_time"));
             sqlReturn.put("endTime",sqlReturn.get("end_time"));
             sqlReturn.put("workerType",sqlReturn.get("worker_type"));
+
             return ShiftTemplate.fromJson(sqlReturn);
 
         } catch (Exception e) {

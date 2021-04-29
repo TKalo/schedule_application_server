@@ -1,13 +1,15 @@
-package com.coopschedulingapplication.restapiserver.DataObjects;
+package com.coopschedulingapplication.restapiserver.Data.Objects;
+
+import com.coopschedulingapplication.restapiserver.Data.Enums.UserType;
 
 import java.util.Map;
 
 public class User {
-    private Integer id;
-    private Integer storeId;
-    private UserType type;
-    private String name;
-    private String email;
+    private final Integer id;
+    private final Integer storeId;
+    private final UserType type;
+    private final String name;
+    private final String email;
 
     public User(Integer id, Integer storeId, UserType type, String name, String email) {
         this.id = id;
@@ -27,11 +29,11 @@ public class User {
         );
     }
 
-    public int getId() {
+    public Integer getId() {
         return id;
     }
 
-    public int getStoreId() {
+    public Integer getStoreId() {
         return storeId;
     }
 
