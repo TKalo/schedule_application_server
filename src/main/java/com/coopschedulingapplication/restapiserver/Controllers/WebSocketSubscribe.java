@@ -15,7 +15,7 @@ import org.springframework.stereotype.Controller;
 import java.security.Principal;
 import java.util.List;
 
-import com.coopschedulingapplication.restapiserver.Data.Objects.*;
+import com.coopschedulingapplication.restapiserver.Data.Entities.*;
 
 @Controller
 @MessageMapping(SpringDests.subscribe)

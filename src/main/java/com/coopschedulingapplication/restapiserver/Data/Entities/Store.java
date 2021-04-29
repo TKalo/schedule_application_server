@@ -1,4 +1,4 @@
-package com.coopschedulingapplication.restapiserver.Data.Objects;
+package com.coopschedulingapplication.restapiserver.Data.Entities;
 
 import java.util.Map;
 
@@ -21,6 +21,15 @@ public class Store {
                 (String) json.get("address"),
                 (String) json.get("city"),
                 (String) json.get("key")
+        );
+    }
+
+    public Map<String, Object> toJson(){
+        return Map.of(
+                "id",id,
+                "address",address,
+                "city",city,
+                "key",key
         );
     }
 

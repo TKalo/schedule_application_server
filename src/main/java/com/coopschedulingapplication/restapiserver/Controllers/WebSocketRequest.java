@@ -1,6 +1,6 @@
 package com.coopschedulingapplication.restapiserver.Controllers;
 
-import com.coopschedulingapplication.restapiserver.Data.Objects.*;
+import com.coopschedulingapplication.restapiserver.Data.Entities.*;
 import com.coopschedulingapplication.restapiserver.SpringDests;
 import com.coopschedulingapplication.restapiserver.StompEntities.Post;
 import com.coopschedulingapplication.restapiserver.StompEntities.PostCommand;

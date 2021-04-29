@@ -1,4 +1,4 @@
-package com.coopschedulingapplication.restapiserver.Data.Objects;
+package com.coopschedulingapplication.restapiserver.Data.Entities;
 
 import com.coopschedulingapplication.restapiserver.Data.Enums.UserType;
 import org.junit.jupiter.api.DisplayName;

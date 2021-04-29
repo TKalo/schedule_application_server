@@ -1,4 +1,4 @@
-package com.coopschedulingapplication.restapiserver.Data.Objects;
+package com.coopschedulingapplication.restapiserver.Data.Entities;
 
 import java.util.Map;
 
@@ -19,6 +19,14 @@ public class SchedulePreferences {
                 (Integer) json.get("userId"),
                 (Integer) json.get("prefWeekDays"),
                 (Integer) json.get("maxWeekDays")
+        );
+    }
+
+    public Map<String, Object> toJson(){
+        return Map.of(
+                "userId",userId,
+                "prefWeekDays",prefWeekDays,
+                "maxWeekDays",maxWeekDays
         );
     }
 

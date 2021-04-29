@@ -1,4 +1,4 @@
-package com.coopschedulingapplication.restapiserver.Data.Objects;
+package com.coopschedulingapplication.restapiserver.Data.Entities;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;

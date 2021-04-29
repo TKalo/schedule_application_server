@@ -1,4 +1,4 @@
-package com.coopschedulingapplication.restapiserver.Data.Objects;
+package com.coopschedulingapplication.restapiserver.Data.Entities;
 
 import com.coopschedulingapplication.restapiserver.Data.Enums.UserType;
 
@@ -27,6 +27,16 @@ public class User {
                 (String) json.get("name"),
                 (String) json.get("email")
         );
+    }
+
+    public Map<String, Object> toJson(){
+        return Map.of(
+                "id",id,
+                "storeId",storeId,
+                "type",type,
+                "name",name,
+                "email",email
+                );
     }
 
     public Integer getId() {

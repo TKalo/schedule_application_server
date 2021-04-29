@@ -1,4 +1,4 @@
-package com.coopschedulingapplication.restapiserver.Data.Objects;
+package com.coopschedulingapplication.restapiserver.Data.Entities;
 
 import com.coopschedulingapplication.restapiserver.Data.Enums.WorkerCreationStatus;
 import com.coopschedulingapplication.restapiserver.Data.Enums.WorkerType;
@@ -28,6 +28,16 @@ public class WorkerCreationRequest {
                 json.get("type") != null ? WorkerType.valueOf((String) json.get("type")) : null,
                 json.get("status") != null ? WorkerCreationStatus.valueOf((String) json.get("status")) : null,
                 (String) json.get("key")
+        );
+    }
+
+    public Map<String, Object> toJson(){
+        return Map.of(
+                "id",id,
+                "storeId",storeId,
+                "type",type,
+                "status",status,
+                "key",key
         );
     }
 

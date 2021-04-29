@@ -1,4 +1,4 @@
-package com.coopschedulingapplication.restapiserver.Data.Objects;
+package com.coopschedulingapplication.restapiserver.Data.Entities;
 
 import com.coopschedulingapplication.restapiserver.Data.Enums.WeekDay;
 import com.coopschedulingapplication.restapiserver.Data.Enums.WorkerType;
@@ -10,7 +10,7 @@ public class ShiftTemplate {
     private final Integer storeId;
     private final Long startTime;
     private final Long endTime;
-    private final WeekDay weekDay;
+    private WeekDay weekDay;
     private final WorkerType workerType;
 
     public ShiftTemplate(Integer id, Integer storeId, Long startTime, Long endTime, WeekDay weekDay, WorkerType workerType) {
@@ -30,6 +30,17 @@ public class ShiftTemplate {
                 (Long) json.get("endTime"),
                 json.get("weekDay") != null ? WeekDay.valueOf((String) json.get("weekDay")) : null,
                 json.get("workerType") != null ? WorkerType.valueOf((String) json.get("workerType")) : null
+        );
+    }
+
+    public Map<String, Object> toJson(){
+        return Map.of(
+                "id",id,
+                "storeId",storeId,
+                "startTime",startTime,
+                "endTime",endTime,
+                "weekDay",weekDay,
+                "workerType",workerType
         );
     }
 
@@ -55,5 +66,9 @@ public class ShiftTemplate {
 
     public WorkerType getWorkerType() {
         return workerType;
+    }
+
+    public void setWeekDay(WeekDay weekDay){
+        this.weekDay = weekDay;
     }
 }

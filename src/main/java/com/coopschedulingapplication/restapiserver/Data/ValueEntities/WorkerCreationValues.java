@@ -1,4 +1,4 @@
-package com.coopschedulingapplication.restapiserver.ConnectionObjects;
+package com.coopschedulingapplication.restapiserver.Data.ValueEntities;
 
 import java.util.Map;
 
@@ -21,6 +21,15 @@ public class WorkerCreationValues {
                 (String) json.get("email"),
                 (String) json.get("password"),
                 (String) json.get("key")
+        );
+    }
+
+    public Map<String, Object> toJson(){
+        return Map.of(
+                "name",name,
+                "email",email,
+                "password",password,
+                "key",key
         );
     }
 

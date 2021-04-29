@@ -1,4 +1,4 @@
-package com.coopschedulingapplication.restapiserver.Data.Objects;
+package com.coopschedulingapplication.restapiserver.Data.Entities;
 
 import com.coopschedulingapplication.restapiserver.Data.Enums.WeekDay;
 import com.coopschedulingapplication.restapiserver.Data.Enums.WorkerType;

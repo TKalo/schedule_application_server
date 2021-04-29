@@ -1,4 +1,4 @@
-package com.coopschedulingapplication.restapiserver.Data.Objects;
+package com.coopschedulingapplication.restapiserver.Data.Entities;
 
 import java.util.Map;
 
@@ -24,6 +24,16 @@ public class ScheduleTemplate {
                 (Long) json.get("preferenceDeadline"),
                 (Long) json.get("creationDeadline"),
                 (Long) json.get("initiationDeadline")
+        );
+    }
+
+    public Map<String, Object> toJson(){
+        return Map.of(
+                "storeId",storeId,
+                "weeks",weeks,
+                "preferenceDeadline",preferenceDeadline,
+                "creationDeadline",creationDeadline,
+                "initiationDeadline",initiationDeadline
         );
     }
 
