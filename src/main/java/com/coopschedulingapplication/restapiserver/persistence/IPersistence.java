@@ -22,14 +22,14 @@ public interface IPersistence {
     ShiftTemplate addShiftTemplate(ShiftTemplate template, Principal principal);
     ShiftTemplate updateShiftTemplate(ShiftTemplate template);
     ShiftTemplate deleteShiftTemplate(ShiftTemplate template);
-    List<ShiftTemplate> getShiftTemplatesStore(int storeId);
+    List<ShiftTemplate> getShiftTemplatesByStore(int storeId);
 
     ScheduleTemplate setScheduleTemplate(ScheduleTemplate template);
     ScheduleTemplate getScheduleTemplateStore(int storeId);
 
     SchedulePreferences setSchedulePreferences(SchedulePreferences preferences);
-    List<SchedulePreferences> getSchedulePreferencesStore(int userId);
-    SchedulePreferences getSchedulePreferencesUser(int userId);
+    List<SchedulePreferences> getSchedulePreferencesByStore(int userId);
+    SchedulePreferences getSchedulePreferencesByUser(int userId);
 
     User getUser(int userId);
     Store getUserStore(int userId);

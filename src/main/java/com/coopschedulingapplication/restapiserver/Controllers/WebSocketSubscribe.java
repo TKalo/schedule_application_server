@@ -1,7 +1,7 @@
 package com.coopschedulingapplication.restapiserver.Controllers;
 
 import com.coopschedulingapplication.restapiserver.SpringDests;
-import com.coopschedulingapplication.restapiserver.persistence.PostgresHandler;
+import com.coopschedulingapplication.restapiserver.persistence.Postgres.PostgresHandler;
 import com.coopschedulingapplication.restapiserver.StompEntities.Post;
 import com.coopschedulingapplication.restapiserver.StompEntities.PostCommand;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -43,12 +43,12 @@ public class WebSocketSubscribe {
 
     @SubscribeMapping(SpringDests.shiftTemplate + SpringDests.storeIdValue)
     public Post<ShiftTemplate> getShiftTemplateRequests(@DestinationVariable String storeId) {
-        return new Post<>(PostCommand.ADD, persistence.getShiftTemplatesStore(Integer.parseInt(storeId)));
+        return new Post<>(PostCommand.ADD, persistence.getShiftTemplatesByStore(Integer.parseInt(storeId)));
     }
 
     @SubscribeMapping(SpringDests.schedulePreferences + SpringDests.userIdValue)
     public Post<SchedulePreferences> getSchedulePreferences(@DestinationVariable String userId) {
-        return new Post<>(PostCommand.ADD, List.of(persistence.getSchedulePreferencesUser(Integer.parseInt(userId))));
+        return new Post<>(PostCommand.ADD, List.of(persistence.getSchedulePreferencesByUser(Integer.parseInt(userId))));
     }
 
     @SubscribeMapping(SpringDests.currentUser)

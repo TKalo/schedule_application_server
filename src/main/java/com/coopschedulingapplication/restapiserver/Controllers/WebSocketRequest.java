@@ -4,7 +4,7 @@ import com.coopschedulingapplication.restapiserver.Data.Entities.*;
 import com.coopschedulingapplication.restapiserver.SpringDests;
 import com.coopschedulingapplication.restapiserver.StompEntities.Post;
 import com.coopschedulingapplication.restapiserver.StompEntities.PostCommand;
-import com.coopschedulingapplication.restapiserver.persistence.PostgresHandler;
+import com.coopschedulingapplication.restapiserver.persistence.Postgres.PostgresHandler;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.Payload;

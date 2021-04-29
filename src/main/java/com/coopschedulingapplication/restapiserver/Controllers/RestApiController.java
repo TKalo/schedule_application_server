@@ -4,7 +4,7 @@ import com.coopschedulingapplication.restapiserver.Data.ValueEntities.Department
 import com.coopschedulingapplication.restapiserver.Data.ValueEntities.WorkerCreationValues;
 import com.coopschedulingapplication.restapiserver.SpringDests;
 import com.coopschedulingapplication.restapiserver.persistence.IPersistence;
-import com.coopschedulingapplication.restapiserver.persistence.PostgresHandler;
+import com.coopschedulingapplication.restapiserver.persistence.Postgres.PostgresHandler;
 import org.springframework.http.HttpStatus;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
