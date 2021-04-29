@@ -16,13 +16,20 @@ import java.util.Map;
 @Component
 public class PostgresHandler implements IPersistence {
 
-
+    @Autowired
     NamedParameterJdbcTemplate jdbcTemplate;
 
-    WorkerCreationFunctions workerCreation = new WorkerCreationFunctions();
-    ShiftTemplateFunctions shiftTemplate = new ShiftTemplateFunctions();
-    ScheduleTemplateFunctions scheduleTemplate = new ScheduleTemplateFunctions();
-    SchedulePreferencesFunctions schedulePreferences = new SchedulePreferencesFunctions();
+    @Autowired
+    WorkerCreationFunctions workerCreation;
+
+    @Autowired
+    ShiftTemplateFunctions shiftTemplate;
+
+    @Autowired
+    ScheduleTemplateFunctions scheduleTemplate;
+
+    @Autowired
+    SchedulePreferencesFunctions schedulePreferences;
 
     @Autowired
     public void setJdbcTemplate(NamedParameterJdbcTemplate jdbcTemplate) {

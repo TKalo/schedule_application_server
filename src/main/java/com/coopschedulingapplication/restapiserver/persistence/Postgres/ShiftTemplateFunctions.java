@@ -1,6 +1,7 @@
 package com.coopschedulingapplication.restapiserver.persistence.Postgres;
 
 import com.coopschedulingapplication.restapiserver.Data.Entities.ShiftTemplate;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Component;
@@ -13,6 +14,7 @@ import java.util.stream.Collectors;
 @Component
 public class ShiftTemplateFunctions {
 
+    @Autowired
     NamedParameterJdbcTemplate jdbcTemplate;
 
     public ShiftTemplate add(ShiftTemplate template, Principal principal) {
