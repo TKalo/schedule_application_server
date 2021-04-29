@@ -7,6 +7,7 @@ import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 
 import java.security.Principal;
 import java.util.List;
@@ -48,7 +49,7 @@ class PostgresHandlerTest {
     class ShiftTemplateTest{
 
         Principal principal = () -> "0";
-        ShiftTemplate shiftTemplate = new ShiftTemplate(null,0,3L,4L, WeekDay.friday, WorkerType.below_eighteen);
+        ShiftTemplate shiftTemplate = new ShiftTemplate(0,0,3L,4L, WeekDay.friday, WorkerType.below_eighteen);
 
         @Test
         void addShiftTemplate() {
@@ -120,10 +121,41 @@ class PostgresHandlerTest {
         assertEquals("snakeToCamel", camelMap.keySet().stream().findFirst().orElse(null));
         assertEquals(1, camelMap.size());
     }
+    @Test
+    void map2SqlMapTest(){
+
+        Integer id = 1414;
+        Integer storeId = 12414;
+        Long startTime = 6525L;
+        Long endTime = 15315135L;
+        WeekDay weekDay = WeekDay.friday;
+        WorkerType workerType = WorkerType.eighteen_plus;
+
+        MapSqlParameterSource newMap = postgresHandler.map2SqlMap(Map.of(
+                "id", id,
+                "storeId", storeId,
+                "startTime", startTime,
+                "endTime", endTime,
+                "weekDay", weekDay,
+                "workerType", workerType
+        ));
+
+        assertTrue(newMap.hasValue("id"));
+        assertTrue(newMap.hasValue("storeId"));
+        assertTrue(newMap.hasValue("startTime"));
+        assertTrue(newMap.hasValue("endTime"));
+        assertTrue(newMap.hasValue("weekDay"));
+        assertTrue(newMap.hasValue("workerType"));
+
+
+        assertEquals(weekDay,newMap.getValue("weekDay"));
+        assertEquals(workerType,newMap.getValue("workerType"));
+    }
+
 
     @Test
     void successOrNullTest(){
-        assertEquals(1, new SuccessOrNull<Integer>().successOrNull(()-> 1));
-        assertNull(new SuccessOrNull<Integer>().successOrNull(() -> Integer.parseInt("adasdd")));
+        assertEquals(1, postgresHandler.successOrNull(()-> 1));
+        assertNull(postgresHandler.successOrNull(() -> Integer.parseInt("adasdd")));
     }
 }

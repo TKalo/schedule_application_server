@@ -29,8 +29,8 @@ public class PostgresHandler implements IPersistence {
 
     @Override
     public WorkerCreationRequest addWorkerCreationRequest(WorkerCreationRequest request, Principal principal) {
-        return successOrNullTemp(()->{
-            Map<String, Object> sqlMap = jdbcTemplate.queryForMap("INSERT INTO worker_creation_request AS wcr (type, store_id) VALUES(:type, (SELECT store_id FROM user_table WHERE id=:user_id)) RETURNING *", map2SqlMap(request.toJson()));
+        return successOrNull(()->{
+            Map<String, Object> sqlMap = jdbcTemplate.queryForMap("INSERT INTO worker_creation_request AS wcr (type, store_id) VALUES(:type, (SELECT store_id FROM user_table WHERE id=:userId)) RETURNING *", map2SqlMap(request.toJson()));
             Map<String, Object> parsableMap = snake2Camel(sqlMap);
             return WorkerCreationRequest.fromJson(snake2Camel(parsableMap));
         });
@@ -38,7 +38,7 @@ public class PostgresHandler implements IPersistence {
 
     @Override
     public WorkerCreationRequest acceptWorkerCreationRequest(WorkerCreationRequest request) {
-        return successOrNullTemp(()-> {
+        return successOrNull(()-> {
             Map<String, Object> sqlMap = jdbcTemplate.queryForMap("UPDATE worker_creation_request SET status = :accepted WHERE id = :id RETURNING *", map2SqlMap(request.toJson()));
             Map<String, Object> parsableMap = snake2Camel(sqlMap);
             return WorkerCreationRequest.fromJson(parsableMap);
@@ -47,7 +47,7 @@ public class PostgresHandler implements IPersistence {
 
     @Override
     public WorkerCreationRequest deleteWorkerCreationRequest(WorkerCreationRequest request) {
-        return successOrNullTemp(()-> {
+        return successOrNull(()-> {
             Map<String, Object> sqlMap = jdbcTemplate.queryForMap("WITH t1 AS (DELETE FROM worker_creation_request WHERE id = :id RETURNING *) SELECT * FROM t1",map2SqlMap(request.toJson()));
             Map<String, Object> parsableMap = snake2Camel(sqlMap);
             return WorkerCreationRequest.fromJson(parsableMap);
@@ -56,8 +56,8 @@ public class PostgresHandler implements IPersistence {
 
     @Override
     public List<WorkerCreationRequest> getWorkerCreationRequestsStore(int storeId) {
-        return successOrNullTemp(()-> {
-            List<Map<String, Object>> sqlMapList = jdbcTemplate.queryForList("SELECT * FROM worker_creation_request WHERE store_id=:store_id", Map.of("store_id", storeId));
+        return successOrNull(()-> {
+            List<Map<String, Object>> sqlMapList = jdbcTemplate.queryForList("SELECT * FROM worker_creation_request WHERE store_id=:storeId", Map.of("store_id", storeId));
             return sqlMapList.stream().map(sqlMap -> {
                 Map<String, Object> parsableMap = snake2Camel(sqlMap);
                 return WorkerCreationRequest.fromJson(parsableMap);
@@ -67,17 +67,24 @@ public class PostgresHandler implements IPersistence {
 
     @Override
     public ShiftTemplate addShiftTemplate(ShiftTemplate template, Principal principal) {
-        return successOrNullTemp(()-> {
-            Map<String, Object> sqlMap = jdbcTemplate.queryForMap("INSERT INTO shift_template (week_day, start_time, end_time, store_id, worker_type) VALUES(:week_day, :start_time, :end_time, (SELECT store_id FROM user_table WHERE id = :user_id), :worker_type) RETURNING *", map2SqlMap(template.toJson()));
-            Map<String, Object> parsableMap = snake2Camel(sqlMap);
+        return successOrNull(()-> {
+            Map<String, Object> json = template.toJson();
+            System.out.println(json);
+            MapSqlParameterSource sqlInputMap = map2SqlMap(json);
+            sqlInputMap.addValue("userId", Integer.parseInt(principal.getName()));
+            Map<String, Object> sqlOutputMap = jdbcTemplate.queryForMap("INSERT INTO shift_template (week_day, start_time, end_time, store_id, worker_type) VALUES(:weekDay, :startTime, :endTime, (SELECT store_id FROM user_table WHERE id = :userId), :workerType) RETURNING *", sqlInputMap);
+            System.out.println("successOrNull");
+            Map<String, Object> parsableMap = snake2Camel(sqlOutputMap);
+            System.out.println(parsableMap);
+            System.out.println("successOrNull");
             return ShiftTemplate.fromJson(parsableMap);
         });
     }
 
     @Override
     public ShiftTemplate updateShiftTemplate(ShiftTemplate template) {
-        return successOrNullTemp(()-> {
-            Map<String, Object> sqlMap = jdbcTemplate.queryForMap("UPDATE shift_template SET week_day = :week_day, start_time = :start_time, end_time = :end_time, worker_type = :worker_type WHERE id = :id RETURNING *", map2SqlMap(template.toJson()));
+        return successOrNull(()-> {
+            Map<String, Object> sqlMap = jdbcTemplate.queryForMap("UPDATE shift_template SET week_day = :weekDay, start_time = :startTime, end_time = :endTime, worker_type = :workerType WHERE id = :id RETURNING *", map2SqlMap(template.toJson()));
             Map<String, Object> parsableMap = snake2Camel(sqlMap);
             return ShiftTemplate.fromJson(parsableMap);
         });
@@ -85,7 +92,7 @@ public class PostgresHandler implements IPersistence {
 
     @Override
     public ShiftTemplate deleteShiftTemplate(ShiftTemplate template) {
-        return successOrNullTemp(()-> {
+        return successOrNull(()-> {
             Map<String, Object> sqlMap = jdbcTemplate.queryForMap("WITH t1 AS (DELETE FROM shift_template WHERE id = :id RETURNING *) SELECT * FROM t1", map2SqlMap(template.toJson()));
             Map<String, Object> parsableMap = snake2Camel(sqlMap);
             return ShiftTemplate.fromJson(parsableMap);
@@ -94,8 +101,8 @@ public class PostgresHandler implements IPersistence {
 
     @Override
     public List<ShiftTemplate> getShiftTemplatesStore(int storeId) {
-        return successOrNullTemp(()-> {
-            List<Map<String, Object>> sqlMapList = jdbcTemplate.queryForList("SELECT * FROM shift_template WHERE store_id=:store_id", Map.of("store_id", storeId));
+        return successOrNull(()-> {
+            List<Map<String, Object>> sqlMapList = jdbcTemplate.queryForList("SELECT * FROM shift_template WHERE store_id=:storeId", Map.of("storeId", storeId));
             return sqlMapList.stream().map(sqlMap -> {
                 Map<String, Object> parsableMap = snake2Camel(sqlMap);
                 return ShiftTemplate.fromJson(parsableMap);
@@ -105,8 +112,8 @@ public class PostgresHandler implements IPersistence {
 
     @Override
     public ScheduleTemplate setScheduleTemplate(ScheduleTemplate template) {
-        return successOrNullTemp(()-> {
-            Map<String, Object> sqlMap = jdbcTemplate.queryForMap("UPDATE schedule_template SET preference_deadline = :preference_deadline, creation_deadline=:creation_deadline, initiation_deadline=:initiation_deadline, weeks=:weeks WHERE store_id = :store_id RETURNING *",map2SqlMap(template.toJson()));
+        return successOrNull(()-> {
+            Map<String, Object> sqlMap = jdbcTemplate.queryForMap("UPDATE schedule_template SET preference_deadline = :preferenceDeadline, creation_deadline=:creationDeadline, initiation_deadline=:initiationDeadline, weeks=:weeks WHERE store_id = :storeId RETURNING *",map2SqlMap(template.toJson()));
             Map<String, Object> parsableMap = snake2Camel(sqlMap);
             return ScheduleTemplate.fromJson(parsableMap);
         });
@@ -114,8 +121,8 @@ public class PostgresHandler implements IPersistence {
 
     @Override
     public ScheduleTemplate getScheduleTemplateStore(int storeId) {
-        return successOrNullTemp(()-> {
-            Map<String, Object> sqlMap = jdbcTemplate.queryForMap("SELECT * FROM schedule_template WHERE store_id=:store_id",Map.of("store_id",storeId));
+        return successOrNull(()-> {
+            Map<String, Object> sqlMap = jdbcTemplate.queryForMap("SELECT * FROM schedule_template WHERE store_id=:storeId",Map.of("store_id",storeId));
             Map<String, Object> parsableMap = snake2Camel(sqlMap);
             return ScheduleTemplate.fromJson(parsableMap);
         });
@@ -123,8 +130,8 @@ public class PostgresHandler implements IPersistence {
 
     @Override
     public SchedulePreferences setSchedulePreferences(SchedulePreferences preferences) {
-        return successOrNullTemp(()-> {
-            Map<String, Object> sqlMap = jdbcTemplate.queryForMap("UPDATE schedule_preferences SET pref_week_days = :pref_week_days, max_week_days=:max_week_days WHERE user_id = :user_id RETURNING *",map2SqlMap(preferences.toJson()));
+        return successOrNull(()-> {
+            Map<String, Object> sqlMap = jdbcTemplate.queryForMap("UPDATE schedule_preferences SET pref_week_days = :prefWeekDays, max_week_days=:maxWeekDays WHERE user_id = :userId RETURNING *",map2SqlMap(preferences.toJson()));
             Map<String, Object> parsableMap = snake2Camel(sqlMap);
             return SchedulePreferences.fromJson(parsableMap);
         });
@@ -132,8 +139,8 @@ public class PostgresHandler implements IPersistence {
 
     @Override
     public List<SchedulePreferences> getSchedulePreferencesStore(int storeId) {
-        return successOrNullTemp(()-> {
-            List<Map<String, Object>> sqlMapList = jdbcTemplate.queryForList("SELECT * FROM schedule_preferences WHERE user_id IN (SELECT user_id FROM user_table WHERE store_id = :store_id)",Map.of("store_id",storeId));
+        return successOrNull(()-> {
+            List<Map<String, Object>> sqlMapList = jdbcTemplate.queryForList("SELECT * FROM schedule_preferences WHERE user_id IN (SELECT user_id FROM user_table WHERE store_id = :storeId)",Map.of("store_id",storeId));
             return sqlMapList.stream().map(sqlMap -> {
                 Map<String, Object> parsableMap = snake2Camel(sqlMap);
                 return SchedulePreferences.fromJson(parsableMap);
@@ -143,8 +150,8 @@ public class PostgresHandler implements IPersistence {
 
     @Override
     public SchedulePreferences getSchedulePreferencesUser(int userId) {
-        return successOrNullTemp(()-> {
-            Map<String, Object> sqlMap = jdbcTemplate.queryForMap("SELECT * FROM schedule_preferences WHERE user_id=:user_id",Map.of("user_id",userId));
+        return successOrNull(()-> {
+            Map<String, Object> sqlMap = jdbcTemplate.queryForMap("SELECT * FROM schedule_preferences WHERE user_id=:userId",Map.of("user_id",userId));
             Map<String, Object> parsableMap = snake2Camel(sqlMap);
             return SchedulePreferences.fromJson(parsableMap);
         });
@@ -152,7 +159,7 @@ public class PostgresHandler implements IPersistence {
 
     @Override
     public User getUser(int userId) {
-        return successOrNullTemp(()-> {
+        return successOrNull(()-> {
             Map<String, Object> sqlMap = jdbcTemplate.queryForMap("SELECT * FROM user_table WHERE id=:id", Map.of("id",userId));
             Map<String, Object> parsableMap = snake2Camel(sqlMap);
             return User.fromJson(parsableMap);
@@ -161,8 +168,8 @@ public class PostgresHandler implements IPersistence {
 
     @Override
     public Store getUserStore(int userId) {
-        return successOrNullTemp(()-> {
-            Map<String, Object> sqlMap = jdbcTemplate.queryForMap("SELECT * FROM store WHERE id=(SELECT store_id FROM user_table WHERE id=:user_id)", Map.of("user_id", userId));
+        return successOrNull(()-> {
+            Map<String, Object> sqlMap = jdbcTemplate.queryForMap("SELECT * FROM store WHERE id=(SELECT store_id FROM user_table WHERE id=:userId)", Map.of("user_id", userId));
             Map<String, Object> parsableMap = snake2Camel(sqlMap);
             return Store.fromJson(parsableMap);
         });
@@ -196,17 +203,27 @@ public class PostgresHandler implements IPersistence {
 
     MapSqlParameterSource map2SqlMap(Map<String, Object> map){
         MapSqlParameterSource sqlMap = new MapSqlParameterSource();
-        map.forEach(sqlMap::addValue);
+        map.forEach((key, object) -> {
+            if(!List.of(Integer.class, Double.class, String.class, Long.class).contains(object.getClass())){
+                sqlMap.addValue(key, object, Types.OTHER);
+            }else {
+                sqlMap.addValue(key, object);
+            }
+        });
         return sqlMap;
     }
 
-    <T> T successOrNullTemp(ITry<T> run){
+    public <T> T successOrNull(ITry<T> run){
         try {
             return run.iTry();
         }catch (Exception e){
-            System.err.println(e.getMessage());
+            System.err.println(e.toString());
             return null;
         }
     }
+}
+
+interface ITry<T>{
+    T iTry();
 }
 
