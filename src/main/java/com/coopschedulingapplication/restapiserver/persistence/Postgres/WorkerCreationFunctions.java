@@ -22,7 +22,7 @@ public class WorkerCreationFunctions {
     }
 
     public WorkerCreationRequest accept(WorkerCreationRequest request) {
-        String sql = "UPDATE worker_creation_request SET status = :accepted WHERE id = :id RETURNING *";
+        String sql = "UPDATE worker_creation_request SET status = 'accepted' WHERE id = :id RETURNING *";
         Map<String, Object> params = request.toJson();
         return HelperFunctions.successOrNull(()-> new WorkerCreationRequest(PGF.queryMap(sql, params)));
     }

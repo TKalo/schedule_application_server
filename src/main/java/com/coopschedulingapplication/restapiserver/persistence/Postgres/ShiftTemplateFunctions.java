@@ -1,13 +1,9 @@
 package com.coopschedulingapplication.restapiserver.persistence.Postgres;
 
 import com.coopschedulingapplication.restapiserver.Data.Entities.ShiftTemplate;
-import com.coopschedulingapplication.restapiserver.Data.Entities.WorkerCreationRequest;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
-import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Component;
 
-import java.security.Principal;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;

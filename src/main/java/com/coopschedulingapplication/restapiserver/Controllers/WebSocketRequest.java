@@ -1,6 +1,9 @@
 package com.coopschedulingapplication.restapiserver.Controllers;
 
-import com.coopschedulingapplication.restapiserver.Data.Entities.*;
+import com.coopschedulingapplication.restapiserver.Data.Entities.SchedulePreferences;
+import com.coopschedulingapplication.restapiserver.Data.Entities.ScheduleTemplate;
+import com.coopschedulingapplication.restapiserver.Data.Entities.ShiftTemplate;
+import com.coopschedulingapplication.restapiserver.Data.Entities.WorkerCreationRequest;
 import com.coopschedulingapplication.restapiserver.SpringDests;
 import com.coopschedulingapplication.restapiserver.StompEntities.Post;
 import com.coopschedulingapplication.restapiserver.StompEntities.PostCommand;
@@ -31,9 +34,6 @@ public class WebSocketRequest {
     public boolean addWorkerCreationRequest(@Payload Map<String,Object> params, Principal principal){
         WorkerCreationRequest request = persistence.addWorkerCreationRequest(new WorkerCreationRequest(params),Integer.parseInt(principal.getName()));
         if(request == null) return false;
-
-        System.out.println("addWorkerCreationRequest!!!!");
-
         template.convertAndSend(SpringDests.userCreationRequestSub + "/" + request.getStoreId(), new Post<>(PostCommand.DELETE, List.of(request)));
         return true;
     }
@@ -61,7 +61,7 @@ public class WebSocketRequest {
     public boolean addShiftTemplate(@Payload Map<String,Object> params, Principal principal){
         ShiftTemplate request = persistence.addShiftTemplate(new ShiftTemplate(params),Integer.parseInt(principal.getName()));
         if(request == null) return false;
-        template.convertAndSend(SpringDests.scheduleTemplateSub + "/" + request.getStoreId(), new Post<>(PostCommand.ADD, List.of(request)));
+        template.convertAndSend(SpringDests.shiftTemplateSub + "/" + request.getStoreId(), new Post<>(PostCommand.ADD, List.of(request)));
         return true;
     }
 
@@ -70,7 +70,7 @@ public class WebSocketRequest {
     public boolean updateShiftTemplate(@Payload Map<String, Object> params){
         ShiftTemplate request = persistence.updateShiftTemplate(new ShiftTemplate(params));
         if(request == null) return false;
-        template.convertAndSend(SpringDests.scheduleTemplateSub + "/" + request.getStoreId(), new Post<>(PostCommand.UPDATE, List.of(request)));
+        template.convertAndSend(SpringDests.shiftTemplateSub + "/" + request.getStoreId(), new Post<>(PostCommand.UPDATE, List.of(request)));
         return true;
     }
 
@@ -79,7 +79,7 @@ public class WebSocketRequest {
     public boolean deleteShiftTemplate(@Payload Map<String, Object> params){
         ShiftTemplate request = persistence.deleteShiftTemplate(new ShiftTemplate(params));
         if(request == null) return false;
-        template.convertAndSend(SpringDests.scheduleTemplateSub + "/" + request.getStoreId(), new Post<>(PostCommand.DELETE, List.of(request)));
+        template.convertAndSend(SpringDests.shiftTemplateSub + "/" + request.getStoreId(), new Post<>(PostCommand.DELETE, List.of(request)));
         return true;
     }
 
@@ -87,7 +87,7 @@ public class WebSocketRequest {
     public boolean setScheduleTemplate(@Payload Map<String,Object> params) {
         ScheduleTemplate schedule = persistence.setScheduleTemplate(new ScheduleTemplate(params));
         if(schedule == null) return false;
-        template.convertAndSend(SpringDests.scheduleTemplate + "/" + schedule.getStoreId(), new Post<>(PostCommand.DELETE, List.of(schedule)));
+        template.convertAndSend(SpringDests.scheduleTemplateSub + "/" + schedule.getStoreId(), new Post<>(PostCommand.DELETE, List.of(schedule)));
         return true;
     }
 
