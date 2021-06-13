@@ -59,7 +59,7 @@ public class WebSocketRequest {
     @MessageMapping(SpringDests.shiftTemplate + SpringDests.add)
     @SendToUser
     public boolean addShiftTemplate(@Payload Map<String,Object> params, Principal principal){
-        ShiftTemplate request = persistence.addShiftTemplate(new ShiftTemplate(params),principal);
+        ShiftTemplate request = persistence.addShiftTemplate(new ShiftTemplate(params),Integer.parseInt(principal.getName()));
         if(request == null) return false;
         template.convertAndSend(SpringDests.scheduleTemplateSub + "/" + request.getStoreId(), new Post<>(PostCommand.ADD, List.of(request)));
         return true;

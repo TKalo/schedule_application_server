@@ -19,7 +19,7 @@ public interface IPersistence {
     WorkerCreationRequest deleteWorkerCreationRequest(WorkerCreationRequest request);
     List<WorkerCreationRequest> getWorkerCreationRequestsStore(int storeId);
 
-    ShiftTemplate addShiftTemplate(ShiftTemplate template, Principal principal);
+    ShiftTemplate addShiftTemplate(ShiftTemplate template, int userId);
     ShiftTemplate updateShiftTemplate(ShiftTemplate template);
     ShiftTemplate deleteShiftTemplate(ShiftTemplate template);
     List<ShiftTemplate> getShiftTemplatesByStore(int storeId);

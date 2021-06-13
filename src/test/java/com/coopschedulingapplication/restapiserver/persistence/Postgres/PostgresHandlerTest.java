@@ -8,10 +8,10 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import java.security.Principal;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @SpringBootTest
 class PostgresHandlerTest {
@@ -25,6 +25,7 @@ class PostgresHandlerTest {
 
         @Test
         void addWorkerCreationRequest() {
+
         }
 
         @Test
@@ -46,18 +47,17 @@ class PostgresHandlerTest {
     @Nested
     class ShiftTemplateTest{
 
-        Principal principal = () -> "0";
         ShiftTemplate shiftTemplate = new ShiftTemplate(0,0,3L,4L, WeekDay.friday, WorkerType.below_eighteen);
 
         @Test
         void addShiftTemplate() {
-            postgresHandler.addShiftTemplate(shiftTemplate, principal);
+            postgresHandler.addShiftTemplate(shiftTemplate, 0);
             List<ShiftTemplate> shiftTemplates = postgresHandler.getShiftTemplatesByStore(0);
             assertTrue(shiftTemplates.size() > 0);
-            assertEquals(shiftTemplate.getStartTime(),shiftTemplates.get(0).getStartTime());
-            assertEquals(shiftTemplate.getEndTime(),shiftTemplates.get(0).getEndTime());
-            assertEquals(shiftTemplate.getWeekDay(),shiftTemplates.get(0).getWeekDay());
-            assertEquals(shiftTemplate.getWorkerType(),shiftTemplates.get(0).getWorkerType());
+            assertEquals(shiftTemplate.getStartTime(),shiftTemplates.get(shiftTemplates.size()-1).getStartTime());
+            assertEquals(shiftTemplate.getEndTime(),shiftTemplates.get(shiftTemplates.size()-1).getEndTime());
+            assertEquals(shiftTemplate.getWeekDay(),shiftTemplates.get(shiftTemplates.size()-1).getWeekDay());
+            assertEquals(shiftTemplate.getWorkerType(),shiftTemplates.get(shiftTemplates.size()-1).getWorkerType());
         }
 
         @Test

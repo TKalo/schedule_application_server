@@ -57,8 +57,8 @@ public class PostgresHandler implements IPersistence {
     }
 
     @Override
-    public ShiftTemplate addShiftTemplate(ShiftTemplate template, Principal principal) {
-        return shiftTemplate.add(template, principal);
+    public ShiftTemplate addShiftTemplate(ShiftTemplate template, int userId) {
+        return shiftTemplate.add(template, userId);
     }
 
     @Override

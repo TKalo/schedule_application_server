@@ -3,7 +3,6 @@ package com.coopschedulingapplication.restapiserver.persistence.Postgres;
 import com.coopschedulingapplication.restapiserver.Data.Enums.WeekDay;
 import com.coopschedulingapplication.restapiserver.Data.Enums.WorkerType;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 
@@ -14,9 +13,6 @@ import static org.junit.jupiter.api.Assertions.*;
 @SpringBootTest
 public class HelperFunctionsTest {
 
-
-    @Autowired
-    private PostgresHandler postgresHandler;
 
     @Test
     void snake2Camel(){
