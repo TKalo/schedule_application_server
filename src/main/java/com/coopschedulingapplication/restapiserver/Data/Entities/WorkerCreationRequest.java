@@ -3,6 +3,7 @@ package com.coopschedulingapplication.restapiserver.Data.Entities;
 import com.coopschedulingapplication.restapiserver.Data.Enums.WorkerCreationStatus;
 import com.coopschedulingapplication.restapiserver.Data.Enums.WorkerType;
 
+import java.util.HashMap;
 import java.util.Map;
 
 public class WorkerCreationRequest {
@@ -11,14 +12,6 @@ public class WorkerCreationRequest {
     private final WorkerType type;
     private final WorkerCreationStatus status;
     private final String key;
-
-    public WorkerCreationRequest(Integer id, Integer storeId, WorkerType type, WorkerCreationStatus status, String key) {
-        this.id = id;
-        this.storeId = storeId;
-        this.type = type;
-        this.status = status;
-        this.key = key;
-    }
 
     public WorkerCreationRequest(Map<String, Object> json){
         this.id = (Integer) json.get("id");
@@ -29,13 +22,13 @@ public class WorkerCreationRequest {
     }
 
     public Map<String, Object> toJson(){
-        return Map.of(
-                "id",id,
-                "storeId",storeId,
-                "type",type,
-                "status",status,
-                "key",key
-        );
+        HashMap<String,Object> jsonMap = new HashMap<>();
+        if(id != null) jsonMap.put("id",id);
+        if(storeId != null) jsonMap.put("storeId",storeId);
+        if(type != null) jsonMap.put("type",type);
+        if(status != null) jsonMap.put("status",status);
+        if(key != null) jsonMap.put("key",key);
+        return jsonMap;
     }
 
     public Integer getId() {

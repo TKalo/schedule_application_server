@@ -2,10 +2,10 @@ package com.coopschedulingapplication.restapiserver.persistence.Postgres;
 
 import com.coopschedulingapplication.restapiserver.Data.Entities.WorkerCreationRequest;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Component;
 
-import java.security.Principal;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -16,10 +16,21 @@ public class WorkerCreationFunctions {
     @Autowired
     NamedParameterJdbcTemplate jdbcTemplate;
 
-    public WorkerCreationRequest add(WorkerCreationRequest request, Principal principal) {
+    public WorkerCreationRequest add(WorkerCreationRequest request, int userId) {
         return HelperFunctions.successOrNull(()->{
-            Map<String, Object> sqlMap = jdbcTemplate.queryForMap("INSERT INTO worker_creation_request AS wcr (type, store_id) VALUES(:type, (SELECT store_id FROM user_table WHERE id=:userId)) RETURNING *", HelperFunctions.map2SqlMap(request.toJson()));
+
+            String sql = "INSERT INTO worker_creation_request AS wcr (type, store_id) VALUES(:type, (SELECT store_id FROM user_table WHERE id=:userId)) RETURNING *";
+
+            Map<String, Object> params = request.toJson();
+
+            params.put("userId",userId);
+
+            MapSqlParameterSource sqlParams = HelperFunctions.map2SqlMap(params);
+
+            Map<String, Object> sqlMap = jdbcTemplate.queryForMap(sql, sqlParams);
+
             Map<String, Object> parsableMap = HelperFunctions.snake2Camel(sqlMap);
+
             return new WorkerCreationRequest(HelperFunctions.snake2Camel(parsableMap));
         });
     }

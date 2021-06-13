@@ -1,5 +1,6 @@
 package com.coopschedulingapplication.restapiserver.Data.Entities;
 
+import java.util.HashMap;
 import java.util.Map;
 
 public class Store {
@@ -7,13 +8,6 @@ public class Store {
     private final String address;
     private final String city;
     private final String key;
-
-    public Store(Integer id, String address, String city, String key) {
-        this.id = id;
-        this.address = address;
-        this.city = city;
-        this.key = key;
-    }
 
     public Store(Map<String,Object> json){
         this.id = (Integer) json.get("id");
@@ -23,12 +17,12 @@ public class Store {
     }
 
     public Map<String, Object> toJson(){
-        return Map.of(
-                "id",id,
-                "address",address,
-                "city",city,
-                "key",key
-        );
+        HashMap<String,Object> jsonMap = new HashMap<>();
+        if(id != null) jsonMap.put("id",id);
+        if(address != null) jsonMap.put("address",address);
+        if(city != null) jsonMap.put("city",city);
+        if(key != null) jsonMap.put("name",key);
+        return jsonMap;
     }
 
     public Integer getId() {

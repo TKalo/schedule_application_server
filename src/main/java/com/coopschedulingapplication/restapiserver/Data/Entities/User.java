@@ -2,6 +2,7 @@ package com.coopschedulingapplication.restapiserver.Data.Entities;
 
 import com.coopschedulingapplication.restapiserver.Data.Enums.UserType;
 
+import java.util.HashMap;
 import java.util.Map;
 
 public class User {
@@ -10,14 +11,6 @@ public class User {
     private final UserType type;
     private final String name;
     private final String email;
-
-    public User(Integer id, Integer storeId, UserType type, String name, String email) {
-        this.id = id;
-        this.storeId = storeId;
-        this.type = type;
-        this.name = name;
-        this.email = email;
-    }
 
     public User(Map<String, Object> json){
         this.id = (Integer) json.get("id");
@@ -28,13 +21,13 @@ public class User {
     }
 
     public Map<String, Object> toJson(){
-        return Map.of(
-                "id",id,
-                "storeId",storeId,
-                "type",type,
-                "name",name,
-                "email",email
-                );
+        HashMap<String,Object> jsonMap = new HashMap<>();
+        if(id != null) jsonMap.put("id",id);
+        if(storeId != null) jsonMap.put("storeId",storeId);
+        if(type != null) jsonMap.put("type",type);
+        if(name != null) jsonMap.put("name",name);
+        if(email != null) jsonMap.put("email",email);
+        return jsonMap;
     }
 
     public Integer getId() {

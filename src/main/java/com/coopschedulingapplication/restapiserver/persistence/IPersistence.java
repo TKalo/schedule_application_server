@@ -14,7 +14,7 @@ import com.coopschedulingapplication.restapiserver.Data.Entities.*;
 @ComponentScan
 public interface IPersistence {
 
-    WorkerCreationRequest addWorkerCreationRequest(WorkerCreationRequest request, Principal principal);
+    WorkerCreationRequest addWorkerCreationRequest(WorkerCreationRequest request, int userId);
     WorkerCreationRequest acceptWorkerCreationRequest(WorkerCreationRequest request);
     WorkerCreationRequest deleteWorkerCreationRequest(WorkerCreationRequest request);
     List<WorkerCreationRequest> getWorkerCreationRequestsStore(int storeId);

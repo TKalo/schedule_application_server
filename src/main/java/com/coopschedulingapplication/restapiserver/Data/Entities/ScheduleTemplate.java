@@ -1,5 +1,6 @@
 package com.coopschedulingapplication.restapiserver.Data.Entities;
 
+import java.util.HashMap;
 import java.util.Map;
 
 public class ScheduleTemplate {
@@ -9,13 +10,6 @@ public class ScheduleTemplate {
     private final Long creationDeadline;
     private final Long initiationDeadline;
 
-    public ScheduleTemplate(Integer storeId, Integer weeks, Long preferenceDeadline, Long creationDeadline, Long initiationDeadline) {
-        this.storeId = storeId;
-        this.weeks = weeks;
-        this.preferenceDeadline = preferenceDeadline;
-        this.creationDeadline = creationDeadline;
-        this.initiationDeadline = initiationDeadline;
-    }
 
     public ScheduleTemplate(Map<String, Object> json){
         this.storeId = (Integer) json.get("storeId");
@@ -26,13 +20,13 @@ public class ScheduleTemplate {
     }
 
     public Map<String, Object> toJson(){
-        return Map.of(
-                "storeId",storeId,
-                "weeks",weeks,
-                "preferenceDeadline",preferenceDeadline,
-                "creationDeadline",creationDeadline,
-                "initiationDeadline",initiationDeadline
-        );
+        HashMap<String,Object> jsonMap = new HashMap<>();
+        if(storeId != null) jsonMap.put("storeId",storeId);
+        if(weeks != null) jsonMap.put("weeks",weeks);
+        if(preferenceDeadline != null) jsonMap.put("preferenceDeadline",preferenceDeadline);
+        if(creationDeadline != null) jsonMap.put("creationDeadline",creationDeadline);
+        if(initiationDeadline != null) jsonMap.put("initiationDeadline",initiationDeadline);
+        return jsonMap;
     }
 
     public Integer getStoreId() {

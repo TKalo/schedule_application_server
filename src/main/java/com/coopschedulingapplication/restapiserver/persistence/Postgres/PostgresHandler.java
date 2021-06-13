@@ -37,8 +37,8 @@ public class PostgresHandler implements IPersistence {
     }
 
     @Override
-    public WorkerCreationRequest addWorkerCreationRequest(WorkerCreationRequest request, Principal principal) {
-        return workerCreation.add(request, principal);
+    public WorkerCreationRequest addWorkerCreationRequest(WorkerCreationRequest request, int userId) {
+        return workerCreation.add(request, userId);
     }
 
     @Override

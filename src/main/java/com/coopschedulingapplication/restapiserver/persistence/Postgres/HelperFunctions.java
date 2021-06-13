@@ -37,7 +37,7 @@ public class HelperFunctions {
         try {
             return run.iTry();
         }catch (Exception e){
-            System.err.println(e);
+            System.err.println(e.getMessage());
             return null;
         }
     }

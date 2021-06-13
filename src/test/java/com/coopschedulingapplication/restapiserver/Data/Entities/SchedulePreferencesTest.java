@@ -79,8 +79,8 @@ public class SchedulePreferencesTest {
         Object preferenceDeadline = "not integer";
 
         Map<String, Object> json = Map.of(
-                "weeks", weeks,
-                "preferenceDeadline", preferenceDeadline
+                "userId", weeks,
+                "maxWeekDays", preferenceDeadline
         );
         assertThrows(ClassCastException.class, () -> new SchedulePreferences(json));
     }

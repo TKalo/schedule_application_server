@@ -29,7 +29,7 @@ public class WebSocketRequest {
     @MessageMapping(SpringDests.workerCreationRequest + SpringDests.add)
     @SendToUser
     public boolean addWorkerCreationRequest(@Payload Map<String,Object> params, Principal principal){
-        WorkerCreationRequest request = persistence.addWorkerCreationRequest(new WorkerCreationRequest(params),principal);
+        WorkerCreationRequest request = persistence.addWorkerCreationRequest(new WorkerCreationRequest(params),Integer.parseInt(principal.getName()));
         if(request == null) return false;
         template.convertAndSend(SpringDests.userCreationRequestSub + request.getStoreId(), new Post<>(PostCommand.ADD, List.of(request)));
         return true;
