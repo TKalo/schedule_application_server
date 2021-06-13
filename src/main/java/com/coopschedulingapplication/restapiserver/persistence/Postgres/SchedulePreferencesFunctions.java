@@ -2,7 +2,6 @@ package com.coopschedulingapplication.restapiserver.persistence.Postgres;
 
 import com.coopschedulingapplication.restapiserver.Data.Entities.SchedulePreferences;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -13,31 +12,23 @@ import java.util.stream.Collectors;
 public class SchedulePreferencesFunctions {
 
     @Autowired
-    NamedParameterJdbcTemplate jdbcTemplate;
+    PostgresGenericFunctions PGF;
 
     public SchedulePreferences set(SchedulePreferences preferences) {
-        return HelperFunctions.successOrNull(()-> {
-            Map<String, Object> sqlMap = jdbcTemplate.queryForMap("UPDATE schedule_preferences SET pref_week_days = :prefWeekDays, max_week_days=:maxWeekDays WHERE user_id = :userId RETURNING *", HelperFunctions.map2SqlMap(preferences.toJson()));
-            Map<String, Object> parsableMap = HelperFunctions.snake2Camel(sqlMap);
-            return new SchedulePreferences(parsableMap);
-        });
+        String sql = "UPDATE schedule_preferences SET pref_week_days = :prefWeekDays, max_week_days=:maxWeekDays WHERE user_id = :userId RETURNING *";
+        Map<String, Object> params = preferences.toJson();
+        return HelperFunctions.successOrNull(()-> new SchedulePreferences(PGF.queryMap(sql,params)));
     }
 
     public List<SchedulePreferences> getByStore(int storeId) {
-        return HelperFunctions.successOrNull(()-> {
-            List<Map<String, Object>> sqlMapList = jdbcTemplate.queryForList("SELECT * FROM schedule_preferences WHERE user_id IN (SELECT user_id FROM user_table WHERE store_id = :storeId)",Map.of("store_id",storeId));
-            return sqlMapList.stream().map(sqlMap -> {
-                Map<String, Object> parsableMap = HelperFunctions.snake2Camel(sqlMap);
-                return new SchedulePreferences(parsableMap);
-            }).collect(Collectors.toList());
-        });
+        String sql = "SELECT * FROM schedule_preferences WHERE user_id IN (SELECT user_id FROM user_table WHERE store_id = :storeId)";
+        Map<String, Object> params = Map.of("store_id",storeId);
+        return HelperFunctions.successOrNull(()-> PGF.queryList(sql,params).stream().map(SchedulePreferences::new).collect(Collectors.toList()));
     }
 
     public SchedulePreferences getByUser(int userId) {
-        return HelperFunctions.successOrNull(()-> {
-            Map<String, Object> sqlMap = jdbcTemplate.queryForMap("SELECT * FROM schedule_preferences WHERE user_id=:userId",Map.of("user_id",userId));
-            Map<String, Object> parsableMap = HelperFunctions.snake2Camel(sqlMap);
-            return new SchedulePreferences(parsableMap);
-        });
+        String sql = "SELECT * FROM schedule_preferences WHERE user_id=:userId";
+        Map<String, Object> params = Map.of("user_id",userId);
+        return HelperFunctions.successOrNull(()-> new SchedulePreferences(PGF.queryMap(sql,params)));
     }
 }

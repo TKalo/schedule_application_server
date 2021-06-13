@@ -3,15 +3,18 @@ package com.coopschedulingapplication.restapiserver.persistence.Postgres;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 
 import java.sql.Types;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 public class HelperFunctions {
 
-    public static Map<String, Object> snake2Camel(Map<String, Object> snake){
+
+
+    public static Map<String, Object> snake2Camel(Map<String, Object> snakeMap){
         Map<String, Object> camel = new HashMap<>();
-        snake.forEach((snakeKey, object) -> {
+        snakeMap.forEach((snakeKey, object) -> {
             while (snakeKey.contains("_")){
                 snakeKey = snakeKey.replaceFirst("_[a-z]",String.valueOf(Character.toUpperCase(snakeKey.charAt(snakeKey.indexOf("_") + 1))));
             }
@@ -19,6 +22,12 @@ public class HelperFunctions {
             camel.put(camelKey,object);
         });
         return camel;
+    }
+
+    public static List<Map<String, Object>> snake2Camel(List<Map<String, Object>> snakeList){
+        List<Map<String, Object>> camelList = new ArrayList<>();
+        snakeList.forEach(snakeMap -> camelList.add(snake2Camel(snakeMap)));
+        return camelList;
     }
 
     public static MapSqlParameterSource map2SqlMap(Map<String, Object> map){

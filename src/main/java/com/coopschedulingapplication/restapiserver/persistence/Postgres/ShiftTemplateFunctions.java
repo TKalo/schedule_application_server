@@ -1,6 +1,7 @@
 package com.coopschedulingapplication.restapiserver.persistence.Postgres;
 
 import com.coopschedulingapplication.restapiserver.Data.Entities.ShiftTemplate;
+import com.coopschedulingapplication.restapiserver.Data.Entities.WorkerCreationRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
@@ -15,42 +16,30 @@ import java.util.stream.Collectors;
 public class ShiftTemplateFunctions {
 
     @Autowired
-    NamedParameterJdbcTemplate jdbcTemplate;
+    PostgresGenericFunctions PGF;
 
-    public ShiftTemplate add(ShiftTemplate template, Principal principal) {
-        return HelperFunctions.successOrNull(()-> {
-            MapSqlParameterSource sqlInputMap = HelperFunctions.map2SqlMap(template.toJson());
-            sqlInputMap.addValue("userId", Integer.parseInt(principal.getName()));
-            Map<String, Object> sqlOutputMap = jdbcTemplate.queryForMap("INSERT INTO shift_template (week_day, start_time, end_time, store_id, worker_type) VALUES(:weekDay, :startTime, :endTime, (SELECT store_id FROM user_table WHERE id = :userId), :workerType) RETURNING *", sqlInputMap);
-            Map<String, Object> parsableMap = HelperFunctions.snake2Camel(sqlOutputMap);
-            return new ShiftTemplate(parsableMap);
-        });
+    public ShiftTemplate add(ShiftTemplate template, int userId) {
+        String sql = "INSERT INTO shift_template (week_day, start_time, end_time, store_id, worker_type) VALUES(:weekDay, :startTime, :endTime, (SELECT store_id FROM user_table WHERE id = :userId), :workerType) RETURNING *";
+        Map<String, Object> params = template.toJson();
+        params.put("userId",userId);
+        return HelperFunctions.successOrNull(()-> new ShiftTemplate(PGF.queryMap(sql, params)));
     }
 
     public ShiftTemplate update(ShiftTemplate template) {
-        return HelperFunctions.successOrNull(()-> {
-            Map<String, Object> sqlMap = jdbcTemplate.queryForMap("UPDATE shift_template SET week_day = :weekDay, start_time = :startTime, end_time = :endTime, worker_type = :workerType WHERE id = :id RETURNING *", HelperFunctions.map2SqlMap(template.toJson()));
-            Map<String, Object> parsableMap = HelperFunctions.snake2Camel(sqlMap);
-            return new ShiftTemplate(parsableMap);
-        });
+        String sql = "UPDATE shift_template SET week_day = :weekDay, start_time = :startTime, end_time = :endTime, worker_type = :workerType WHERE id = :id RETURNING *";
+        Map<String, Object> params = template.toJson();
+        return HelperFunctions.successOrNull(()-> new ShiftTemplate(PGF.queryMap(sql, params)));
     }
 
     public ShiftTemplate delete(ShiftTemplate template) {
-        return HelperFunctions.successOrNull(()-> {
-            Map<String, Object> sqlMap = jdbcTemplate.queryForMap("WITH t1 AS (DELETE FROM shift_template WHERE id = :id RETURNING *) SELECT * FROM t1", HelperFunctions.map2SqlMap(template.toJson()));
-            Map<String, Object> parsableMap = HelperFunctions.snake2Camel(sqlMap);
-            return new ShiftTemplate(parsableMap);
-        });
+        String sql = "WITH t1 AS (DELETE FROM shift_template WHERE id = :id RETURNING *) SELECT * FROM t1";
+        Map<String, Object> params = template.toJson();
+        return HelperFunctions.successOrNull(()-> new ShiftTemplate(PGF.queryMap(sql, params)));
     }
 
     public List<ShiftTemplate> getByStore(int storeId) {
-        return HelperFunctions.successOrNull(()-> {
-            List<Map<String, Object>> sqlMapList = jdbcTemplate.queryForList("SELECT * FROM shift_template WHERE store_id=:storeId", Map.of("storeId", storeId));
-            return sqlMapList.stream().map(sqlMap -> {
-                Map<String, Object> parsableMap = HelperFunctions.snake2Camel(sqlMap);
-                return new ShiftTemplate(parsableMap);
-            }).collect(Collectors.toList());
-        });
+        String sql = "SELECT * FROM shift_template WHERE store_id=:storeId";
+        Map<String, Object> params = Map.of("storeId", storeId);
+        return HelperFunctions.successOrNull(()-> PGF.queryList(sql,params).stream().map(ShiftTemplate::new).collect(Collectors.toList()));
     }
-
 }
