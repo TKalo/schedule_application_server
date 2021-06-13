@@ -23,7 +23,7 @@ public class ShiftTemplateFunctions {
             sqlInputMap.addValue("userId", Integer.parseInt(principal.getName()));
             Map<String, Object> sqlOutputMap = jdbcTemplate.queryForMap("INSERT INTO shift_template (week_day, start_time, end_time, store_id, worker_type) VALUES(:weekDay, :startTime, :endTime, (SELECT store_id FROM user_table WHERE id = :userId), :workerType) RETURNING *", sqlInputMap);
             Map<String, Object> parsableMap = HelperFunctions.snake2Camel(sqlOutputMap);
-            return ShiftTemplate.fromJson(parsableMap);
+            return new ShiftTemplate(parsableMap);
         });
     }
 
@@ -31,7 +31,7 @@ public class ShiftTemplateFunctions {
         return HelperFunctions.successOrNull(()-> {
             Map<String, Object> sqlMap = jdbcTemplate.queryForMap("UPDATE shift_template SET week_day = :weekDay, start_time = :startTime, end_time = :endTime, worker_type = :workerType WHERE id = :id RETURNING *", HelperFunctions.map2SqlMap(template.toJson()));
             Map<String, Object> parsableMap = HelperFunctions.snake2Camel(sqlMap);
-            return ShiftTemplate.fromJson(parsableMap);
+            return new ShiftTemplate(parsableMap);
         });
     }
 
@@ -39,7 +39,7 @@ public class ShiftTemplateFunctions {
         return HelperFunctions.successOrNull(()-> {
             Map<String, Object> sqlMap = jdbcTemplate.queryForMap("WITH t1 AS (DELETE FROM shift_template WHERE id = :id RETURNING *) SELECT * FROM t1", HelperFunctions.map2SqlMap(template.toJson()));
             Map<String, Object> parsableMap = HelperFunctions.snake2Camel(sqlMap);
-            return ShiftTemplate.fromJson(parsableMap);
+            return new ShiftTemplate(parsableMap);
         });
     }
 
@@ -48,7 +48,7 @@ public class ShiftTemplateFunctions {
             List<Map<String, Object>> sqlMapList = jdbcTemplate.queryForList("SELECT * FROM shift_template WHERE store_id=:storeId", Map.of("storeId", storeId));
             return sqlMapList.stream().map(sqlMap -> {
                 Map<String, Object> parsableMap = HelperFunctions.snake2Camel(sqlMap);
-                return ShiftTemplate.fromJson(parsableMap);
+                return new ShiftTemplate(parsableMap);
             }).collect(Collectors.toList());
         });
     }

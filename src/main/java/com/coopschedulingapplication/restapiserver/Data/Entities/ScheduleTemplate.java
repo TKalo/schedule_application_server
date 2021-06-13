@@ -17,14 +17,12 @@ public class ScheduleTemplate {
         this.initiationDeadline = initiationDeadline;
     }
 
-    public static ScheduleTemplate fromJson(Map<String, Object> json){
-        return new ScheduleTemplate(
-                (Integer) json.get("storeId"),
-                (Integer) json.get("weeks"),
-                (Long) json.get("preferenceDeadline"),
-                (Long) json.get("creationDeadline"),
-                (Long) json.get("initiationDeadline")
-        );
+    public ScheduleTemplate(Map<String, Object> json){
+        this.storeId = (Integer) json.get("storeId");
+        this.weeks = (Integer) json.get("weeks");
+        this.preferenceDeadline = (Long) json.get("preferenceDeadline");
+        this.creationDeadline = (Long) json.get("creationDeadline");
+        this.initiationDeadline = (Long) json.get("initiationDeadline");
     }
 
     public Map<String, Object> toJson(){

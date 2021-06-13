@@ -19,14 +19,12 @@ public class User {
         this.email = email;
     }
 
-    public static User fromJson(Map<String, Object> json){
-        return new User(
-                (Integer) json.get("id"),
-                (Integer) json.get("storeId"),
-                json.get("type") != null ? UserType.valueOf((String) json.get("type")) : null,
-                (String) json.get("name"),
-                (String) json.get("email")
-        );
+    public User(Map<String, Object> json){
+        this.id = (Integer) json.get("id");
+        this.storeId = (Integer) json.get("storeId");
+        this.type = json.get("type") != null ? UserType.valueOf((String) json.get("type")) : null;
+        this.name = (String) json.get("name");
+        this.email = (String) json.get("email");
     }
 
     public Map<String, Object> toJson(){

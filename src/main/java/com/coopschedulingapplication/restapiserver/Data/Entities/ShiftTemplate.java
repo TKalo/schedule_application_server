@@ -22,15 +22,13 @@ public class ShiftTemplate {
         this.workerType = workerType;
     }
 
-    public static ShiftTemplate fromJson(Map<String, Object> json){
-        return new ShiftTemplate(
-                (Integer) json.get("id"),
-                (Integer) json.get("storeId"),
-                (Long) json.get("startTime"),
-                (Long) json.get("endTime"),
-                json.get("weekDay") != null ? WeekDay.valueOf((String) json.get("weekDay")) : null,
-                json.get("workerType") != null ? WorkerType.valueOf((String) json.get("workerType")) : null
-        );
+    public ShiftTemplate(Map<String, Object> json){
+        this.id = (Integer) json.get("id");
+        this.storeId = (Integer) json.get("storeId");
+        this.startTime = (Long) json.get("startTime");
+        this.endTime = (Long) json.get("endTime");
+        this.weekDay = json.get("weekDay") != null ? WeekDay.valueOf((String) json.get("weekDay")) : null;
+        this.workerType = json.get("workerType") != null ? WorkerType.valueOf((String) json.get("workerType")) : null;
     }
 
     public Map<String, Object> toJson(){

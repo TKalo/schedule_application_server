@@ -15,13 +15,11 @@ public class Store {
         this.key = key;
     }
 
-    public static Store fromJson(Map<String,Object> json){
-        return new Store(
-                (Integer) json.get("id"),
-                (String) json.get("address"),
-                (String) json.get("city"),
-                (String) json.get("key")
-        );
+    public Store(Map<String,Object> json){
+        this.id = (Integer) json.get("id");
+        this.address = (String) json.get("address");
+        this.city = (String) json.get("city");
+        this.key = (String) json.get("key");
     }
 
     public Map<String, Object> toJson(){

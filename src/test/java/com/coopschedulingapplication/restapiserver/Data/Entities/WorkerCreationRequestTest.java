@@ -29,7 +29,7 @@ class WorkerCreationRequestTest {
                 "status", statusString,
                 "key", key
         );
-        WorkerCreationRequest object = WorkerCreationRequest.fromJson(json);
+        WorkerCreationRequest object = new WorkerCreationRequest(json);
         assertEquals(id,object.getId());
         assertEquals(storeId,object.getStoreId());
         assertEquals(type,object.getType());
@@ -50,7 +50,7 @@ class WorkerCreationRequestTest {
                 "status", statusString,
                 "key", key
         );
-        WorkerCreationRequest object = WorkerCreationRequest.fromJson(json);
+        WorkerCreationRequest object = new WorkerCreationRequest(json);
         assertEquals(id,object.getId());
         assertEquals(storeId,object.getStoreId());
     }
@@ -67,7 +67,7 @@ class WorkerCreationRequestTest {
                 "key", key,
                 "nonExistingField",nonExistingField
         );
-        WorkerCreationRequest object = WorkerCreationRequest.fromJson(json);
+        WorkerCreationRequest object = new WorkerCreationRequest(json);
         assertEquals(id,object.getId());
         assertEquals(storeId,object.getStoreId());
         assertEquals(type,object.getType());
@@ -80,7 +80,7 @@ class WorkerCreationRequestTest {
     void MissingFields(){
 
         Map<String, Object> json = Map.of();
-        WorkerCreationRequest object = WorkerCreationRequest.fromJson(json);
+        WorkerCreationRequest object = new WorkerCreationRequest(json);
         assertNull(object.getId());
         assertNull(object.getStoreId());
         assertNull(object.getType());
@@ -98,6 +98,6 @@ class WorkerCreationRequestTest {
                 "id", string,
                 "type", integer
         );
-        assertThrows(ClassCastException.class, () -> WorkerCreationRequest.fromJson(json));
+        assertThrows(ClassCastException.class, () ->new WorkerCreationRequest(json));
     }
 }

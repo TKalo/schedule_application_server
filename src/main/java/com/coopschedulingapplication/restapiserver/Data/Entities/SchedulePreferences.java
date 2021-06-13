@@ -14,12 +14,10 @@ public class SchedulePreferences {
         this.maxWeekDays = maxWeekDays;
     }
 
-    public static SchedulePreferences fromJson(Map<String,Object> json){
-        return new SchedulePreferences(
-                (Integer) json.get("userId"),
-                (Integer) json.get("prefWeekDays"),
-                (Integer) json.get("maxWeekDays")
-        );
+    public SchedulePreferences(Map<String,Object> json){
+        this.userId = (Integer) json.get("userId");
+        this.prefWeekDays = (Integer) json.get("prefWeekDays");
+        this.maxWeekDays = (Integer) json.get("maxWeekDays");
     }
 
     public Map<String, Object> toJson(){

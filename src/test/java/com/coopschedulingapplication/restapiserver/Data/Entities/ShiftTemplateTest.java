@@ -32,7 +32,7 @@ class ShiftTemplateTest {
                 "workerType", workerTypeString
 
         );
-        ShiftTemplate object = ShiftTemplate.fromJson(json);
+        ShiftTemplate object = new ShiftTemplate(json);
         assertEquals(object.getId(),id);
         assertEquals(object.getStoreId(),storeId);
         assertEquals(object.getStartTime(),startTime);
@@ -58,7 +58,7 @@ class ShiftTemplateTest {
                 "workerType", workerTypeString
 
         );
-        ShiftTemplate object = ShiftTemplate.fromJson(json);
+        ShiftTemplate object = new ShiftTemplate(json);
         assertEquals(object.getId(),id);
         assertEquals(object.getStoreId(),storeId);
         assertEquals(object.getStartTime(),startTime);
@@ -78,7 +78,7 @@ class ShiftTemplateTest {
                 "workerType", workerTypeString,
                 "nonExistingField",nonExistingField
         );
-        ShiftTemplate object = ShiftTemplate.fromJson(json);
+        ShiftTemplate object = new ShiftTemplate(json);
         assertEquals(object.getId(),id);
         assertEquals(object.getStoreId(),storeId);
         assertEquals(object.getStartTime(),startTime);
@@ -92,7 +92,7 @@ class ShiftTemplateTest {
     void MissingFields(){
 
         Map<String, Object> json = Map.of();
-        ShiftTemplate object = ShiftTemplate.fromJson(json);
+        ShiftTemplate object = new ShiftTemplate(json);
         assertNull(object.getId());
         assertNull(object.getStoreId());
         assertNull(object.getStartTime());
@@ -111,6 +111,6 @@ class ShiftTemplateTest {
                 "id", string,
                 "workerType", integer
         );
-        assertThrows(ClassCastException.class, () -> ShiftTemplate.fromJson(json));
+        assertThrows(ClassCastException.class, () -> new ShiftTemplate(json));
     }
 }

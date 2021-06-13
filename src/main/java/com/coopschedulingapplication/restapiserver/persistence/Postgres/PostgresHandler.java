@@ -106,7 +106,7 @@ public class PostgresHandler implements IPersistence {
         return HelperFunctions.successOrNull(()-> {
             Map<String, Object> sqlMap = jdbcTemplate.queryForMap("SELECT * FROM user_table WHERE id=:id", Map.of("id",userId));
             Map<String, Object> parsableMap = HelperFunctions.snake2Camel(sqlMap);
-            return User.fromJson(parsableMap);
+            return new User(parsableMap);
         });
     }
 
@@ -115,7 +115,7 @@ public class PostgresHandler implements IPersistence {
         return HelperFunctions.successOrNull(()-> {
             Map<String, Object> sqlMap = jdbcTemplate.queryForMap("SELECT * FROM store WHERE id=(SELECT store_id FROM user_table WHERE id=:userId)", Map.of("user_id", userId));
             Map<String, Object> parsableMap = HelperFunctions.snake2Camel(sqlMap);
-            return Store.fromJson(parsableMap);
+            return new Store(parsableMap);
         });
     }
 

@@ -1,32 +1,22 @@
 package com.coopschedulingapplication.restapiserver.Controllers;
 
+import com.coopschedulingapplication.restapiserver.Data.Entities.*;
 import com.coopschedulingapplication.restapiserver.SpringDests;
-import com.coopschedulingapplication.restapiserver.persistence.Postgres.PostgresHandler;
 import com.coopschedulingapplication.restapiserver.StompEntities.Post;
 import com.coopschedulingapplication.restapiserver.StompEntities.PostCommand;
+import com.coopschedulingapplication.restapiserver.persistence.Postgres.PostgresHandler;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.messaging.handler.annotation.DestinationVariable;
 import org.springframework.messaging.handler.annotation.MessageMapping;
-import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.messaging.simp.annotation.SubscribeMapping;
 import org.springframework.stereotype.Controller;
 
 import java.security.Principal;
 import java.util.List;
 
-import com.coopschedulingapplication.restapiserver.Data.Entities.*;
-
 @Controller
 @MessageMapping(SpringDests.subscribe)
 public class WebSocketSubscribe {
-
-    @Autowired
-    SimpMessagingTemplate template;
-
-    @Autowired
-    NamedParameterJdbcTemplate jdbcTemplate;
-
 
     @Autowired
     PostgresHandler persistence;

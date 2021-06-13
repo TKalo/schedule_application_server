@@ -22,7 +22,7 @@ public class SchedulePreferencesTest {
                 "prefWeekDays", prefWeekDays,
                 "maxWeekDays", maxWeekDays
         );
-        SchedulePreferences object = SchedulePreferences.fromJson(json);
+        SchedulePreferences object = new SchedulePreferences(json);
         assertEquals(object.getUserId(),userId);
         assertEquals(object.getPrefWeekDays(),prefWeekDays);
         assertEquals(object.getMaxWeekDays(),maxWeekDays);
@@ -39,7 +39,7 @@ public class SchedulePreferencesTest {
                 "prefWeekDays", prefWeekDays,
                 "maxWeekDays", maxWeekDays
         );
-        SchedulePreferences object = SchedulePreferences.fromJson(json);
+        SchedulePreferences object = new SchedulePreferences(json);
         assertEquals(object.getUserId(),userId);
         assertEquals(object.getPrefWeekDays(),prefWeekDays);
         assertEquals(object.getMaxWeekDays(),maxWeekDays);
@@ -56,7 +56,7 @@ public class SchedulePreferencesTest {
                 "maxWeekDays", maxWeekDays,
                 "nonExistingField", nonExistingField
         );
-        SchedulePreferences object = SchedulePreferences.fromJson(json);
+        SchedulePreferences object = new SchedulePreferences(json);
         assertEquals(object.getUserId(),userId);
         assertEquals(object.getPrefWeekDays(),prefWeekDays);
         assertEquals(object.getMaxWeekDays(),maxWeekDays);
@@ -66,7 +66,7 @@ public class SchedulePreferencesTest {
     @DisplayName("missing fields scenario")
     void MissingFields(){
         Map<String, Object> json = Map.of();
-        SchedulePreferences object = SchedulePreferences.fromJson(json);
+        SchedulePreferences object = new SchedulePreferences(json);
         assertNull(object.getUserId());
         assertNull(object.getMaxWeekDays());
         assertNull(object.getMaxWeekDays());
@@ -75,13 +75,13 @@ public class SchedulePreferencesTest {
     @Test()
     @DisplayName("wrong values scenario")
     void wrongValues(){
-        String weeks = "";
-        Object preferenceDeadline = "";
+        String weeks = "not integer";
+        Object preferenceDeadline = "not integer";
 
         Map<String, Object> json = Map.of(
                 "weeks", weeks,
                 "preferenceDeadline", preferenceDeadline
         );
-        assertThrows(ClassCastException.class, () -> SchedulePreferences.fromJson(json));
+        assertThrows(ClassCastException.class, () -> new SchedulePreferences(json));
     }
 }

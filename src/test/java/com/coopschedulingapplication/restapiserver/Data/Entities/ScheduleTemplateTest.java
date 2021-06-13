@@ -25,7 +25,7 @@ class ScheduleTemplateTest {
                 "creationDeadline", creationDeadline,
                 "initiationDeadline", initiationDeadline
         );
-        ScheduleTemplate object = ScheduleTemplate.fromJson(json);
+        ScheduleTemplate object = new ScheduleTemplate(json);
         assertEquals(object.getStoreId(),storeId);
         assertEquals(object.getWeeks(),weeks);
         assertEquals(object.getPreferenceDeadline(),preferenceDeadline);
@@ -49,7 +49,7 @@ class ScheduleTemplateTest {
                 "creationDeadline", creationDeadline,
                 "initiationDeadline", initiationDeadline
         );
-        ScheduleTemplate object = ScheduleTemplate.fromJson(json);
+        ScheduleTemplate object = new ScheduleTemplate(json);
         assertEquals(object.getStoreId(),storeId);
         assertEquals(object.getWeeks(),weeks);
         assertEquals(object.getPreferenceDeadline(),preferenceDeadline);
@@ -70,7 +70,7 @@ class ScheduleTemplateTest {
                 "initiationDeadline", initiationDeadline,
                 "nonExistingField", nonExistingField
         );
-        ScheduleTemplate object = ScheduleTemplate.fromJson(json);
+        ScheduleTemplate object = new ScheduleTemplate(json);
         assertEquals(object.getStoreId(),storeId);
         assertEquals(object.getWeeks(),weeks);
         assertEquals(object.getPreferenceDeadline(),preferenceDeadline);
@@ -82,7 +82,7 @@ class ScheduleTemplateTest {
     @DisplayName("missing fields scenario")
     void MissingFields(){
         Map<String, Object> json = Map.of();
-        ScheduleTemplate object = ScheduleTemplate.fromJson(json);
+        ScheduleTemplate object = new ScheduleTemplate(json);
         assertNull(object.getWeeks());
         assertNull(object.getPreferenceDeadline());
         assertNull(object.getStoreId());
@@ -100,6 +100,6 @@ class ScheduleTemplateTest {
                 "weeks", weeks,
                 "preferenceDeadline", preferenceDeadline
         );
-        assertThrows(ClassCastException.class, () -> ScheduleTemplate.fromJson(json));
+        assertThrows(ClassCastException.class, () -> new ScheduleTemplate(json));
     }
 }

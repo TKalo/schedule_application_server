@@ -27,7 +27,7 @@ class UserTest {
                 "name", name,
                 "email", email
         );
-        User object = User.fromJson(json);
+        User object = new User(json);
         assertEquals(object.getId(),id);
         assertEquals(object.getStoreId(),storeId);
         assertEquals(object.getType(),type);
@@ -48,7 +48,7 @@ class UserTest {
                 "name", name,
                 "email", email
         );
-        User object = User.fromJson(json);
+        User object = new User(json);
         assertEquals(object.getId(),id);
         assertEquals(object.getStoreId(),storeId);
     }
@@ -65,7 +65,7 @@ class UserTest {
                 "email", email,
                 "nonExistingField",nonExistingField
         );
-        User object = User.fromJson(json);
+        User object = new User(json);
         assertEquals(object.getId(),id);
         assertEquals(object.getStoreId(),storeId);
         assertEquals(object.getType(),type);
@@ -78,7 +78,7 @@ class UserTest {
     void MissingFields(){
 
         Map<String, Object> json = Map.of();
-        User object = User.fromJson(json);
+        User object = new User(json);
         assertNull(object.getId());
         assertNull(object.getStoreId());
         assertNull(object.getType());
@@ -96,6 +96,6 @@ class UserTest {
                 "id", string,
                 "name", integer
         );
-        assertThrows(ClassCastException.class, () -> ShiftTemplate.fromJson(json));
+        assertThrows(ClassCastException.class, () -> new ShiftTemplate(json));
     }
 }

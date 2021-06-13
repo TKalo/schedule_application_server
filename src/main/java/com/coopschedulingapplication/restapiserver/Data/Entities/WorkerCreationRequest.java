@@ -20,15 +20,12 @@ public class WorkerCreationRequest {
         this.key = key;
     }
 
-
-    public static WorkerCreationRequest fromJson(Map<String, Object> json){
-        return new WorkerCreationRequest(
-                (Integer) json.get("id"),
-                (Integer) json.get("storeId"),
-                json.get("type") != null ? WorkerType.valueOf((String) json.get("type")) : null,
-                json.get("status") != null ? WorkerCreationStatus.valueOf((String) json.get("status")) : null,
-                (String) json.get("key")
-        );
+    public WorkerCreationRequest(Map<String, Object> json){
+        this.id = (Integer) json.get("id");
+        this.storeId = (Integer) json.get("storeId");
+        this.type = json.get("type") != null ? WorkerType.valueOf((String) json.get("type")) : null;
+        this.status = json.get("status") != null ? WorkerCreationStatus.valueOf((String) json.get("status")) : null;
+        this.key = (String) json.get("key");
     }
 
     public Map<String, Object> toJson(){

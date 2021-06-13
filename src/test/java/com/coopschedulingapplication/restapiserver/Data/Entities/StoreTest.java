@@ -24,7 +24,7 @@ class StoreTest {
                 "city", city,
                 "key", key
         );
-        Store object = Store.fromJson(json);
+        Store object = new Store(json);
         assertEquals(object.getId(),id);
         assertEquals(object.getAddress(),address);
         assertEquals(object.getCity(),city);
@@ -42,7 +42,7 @@ class StoreTest {
                 "city", city,
                 "key", key
         );
-        Store object = Store.fromJson(json);
+        Store object = new Store(json);
         assertEquals(object.getId(),id);
     }
 
@@ -57,7 +57,7 @@ class StoreTest {
                 "key", key,
                 "nonExistingField",nonExistingField
         );
-        Store object = Store.fromJson(json);
+        Store object = new Store(json);
         assertEquals(object.getId(),id);
         assertEquals(object.getAddress(),address);
         assertEquals(object.getCity(),city);
@@ -68,7 +68,7 @@ class StoreTest {
     @DisplayName("missing fields scenario")
     void MissingFields(){
         Map<String, Object> json = Map.of();
-        Store object = Store.fromJson(json);
+        Store object = new Store(json);
         assertNull(object.getId());
         assertNull(object.getAddress());
         assertNull(object.getCity());
@@ -85,6 +85,6 @@ class StoreTest {
                 "id", string,
                 "address", integer
         );
-        assertThrows(ClassCastException.class, () -> Store.fromJson(json));
+        assertThrows(ClassCastException.class, () -> new Store(json));
     }
 }
