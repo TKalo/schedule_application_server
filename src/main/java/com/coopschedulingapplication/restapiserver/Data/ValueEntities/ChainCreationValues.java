@@ -2,28 +2,25 @@ package com.coopschedulingapplication.restapiserver.Data.ValueEntities;
 
 import java.util.Map;
 
-public class DepartmentCreationValues {
+public class ChainCreationValues {
 
     private final String name;
     private final String email;
     private final String password;
-    private final String address;
-    private final String city;
+    private final String chainName;
 
-    public DepartmentCreationValues(String name, String email, String password, String address, String city) {
+    public ChainCreationValues(String name, String email, String password, String chainName) {
         this.name = name;
         this.email = email;
         this.password = password;
-        this.address = address;
-        this.city = city;
+        this.chainName = chainName;
     }
 
-    public DepartmentCreationValues(Map<String,Object> json){
+    public ChainCreationValues(Map<String,Object> json){
         this.name = (String) json.get("name");
         this.email = (String) json.get("email");
         this.password = (String) json.get("password");
-        this.address = (String) json.get("address");
-        this.city = (String) json.get("city");
+        this.chainName = (String) json.get("chainName");
     }
 
     public Map<String, Object> toJson(){
@@ -31,8 +28,7 @@ public class DepartmentCreationValues {
                 "name",name,
                 "email",email,
                 "password",password,
-                "address",address,
-                "city",city
+                "address",chainName
         );
     }
 }

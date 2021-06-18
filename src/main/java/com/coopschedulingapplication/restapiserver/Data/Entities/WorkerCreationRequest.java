@@ -2,6 +2,7 @@ package com.coopschedulingapplication.restapiserver.Data.Entities;
 
 import com.coopschedulingapplication.restapiserver.Data.Enums.WorkerCreationStatus;
 import com.coopschedulingapplication.restapiserver.Data.Enums.WorkerType;
+import com.coopschedulingapplication.restapiserver.Data.HelperFunctions;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -21,13 +22,14 @@ public class WorkerCreationRequest {
         this.key = (String) json.get("key");
     }
 
+
     public Map<String, Object> toJson(){
         HashMap<String,Object> jsonMap = new HashMap<>();
-        if(id != null) jsonMap.put("id",id);
-        if(storeId != null) jsonMap.put("storeId",storeId);
-        if(type != null) jsonMap.put("type",type);
-        if(status != null) jsonMap.put("status",status);
-        if(key != null) jsonMap.put("key",key);
+        HelperFunctions.addIfNotNull(jsonMap,"id",id);
+        HelperFunctions.addIfNotNull(jsonMap,"storeId",storeId);
+        HelperFunctions.addIfNotNull(jsonMap,"type",type);
+        HelperFunctions.addIfNotNull(jsonMap,"status",status);
+        HelperFunctions.addIfNotNull(jsonMap,"key",key);
         return jsonMap;
     }
 

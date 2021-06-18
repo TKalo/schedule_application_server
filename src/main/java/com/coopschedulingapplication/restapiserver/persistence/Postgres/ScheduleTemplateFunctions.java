@@ -9,8 +9,12 @@ import java.util.Map;
 @Component
 public class ScheduleTemplateFunctions {
 
+    private PostgresGenericFunctions PGF;
     @Autowired
-    PostgresGenericFunctions PGF;
+    private void setPostgresGenericFunctions(PostgresGenericFunctions PGF) {
+        this.PGF = PGF;
+    }
+
 
     public ScheduleTemplate set(ScheduleTemplate template) {
         String sql = "UPDATE schedule_template SET preference_deadline = :preferenceDeadline, creation_deadline=:creationDeadline, initiation_deadline=:initiationDeadline, weeks=:weeks WHERE store_id = :storeId RETURNING *";

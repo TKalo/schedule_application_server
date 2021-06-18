@@ -1,6 +1,9 @@
 package com.coopschedulingapplication.restapiserver.Configurations;
 
+import com.coopschedulingapplication.restapiserver.Data.ValueEntities.PersistenceResult;
 import com.coopschedulingapplication.restapiserver.SpringDests;
+import com.coopschedulingapplication.restapiserver.persistence.IPersistence;
+import com.coopschedulingapplication.restapiserver.persistence.Postgres.PostgresHandler;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Configuration;
@@ -18,12 +21,16 @@ import org.springframework.messaging.simp.stomp.StompHeaderAccessor;
 import org.springframework.messaging.support.ChannelInterceptor;
 import org.springframework.messaging.support.MessageBuilder;
 import org.springframework.messaging.support.MessageHeaderAccessor;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.socket.config.annotation.EnableWebSocketMessageBroker;
 import org.springframework.web.socket.config.annotation.StompEndpointRegistry;
 import org.springframework.web.socket.config.annotation.WebSocketMessageBrokerConfigurer;
 
+import java.util.Collections;
 import java.util.List;
+import java.util.Set;
 
 
 @Configuration
@@ -31,8 +38,12 @@ import java.util.List;
 @Order(Ordered.HIGHEST_PRECEDENCE + 99)
 public class WebsocketConnectionConfiguration implements WebSocketMessageBrokerConfigurer {
 
+
+    IPersistence persistence;
     @Autowired
-    NamedParameterJdbcTemplate jdbcTemplate;
+    private void getIPersistence(PostgresHandler handler){
+        persistence = handler;
+    }
 
     @Autowired
     @Qualifier("clientOutboundChannel")
@@ -59,23 +70,24 @@ public class WebsocketConnectionConfiguration implements WebSocketMessageBrokerC
                 final String password = accessor.getFirstNativeHeader("password");
                 final String userType = accessor.getFirstNativeHeader("usertype");
 
-                WebsocketAuthenticationService authenticationService = new WebsocketAuthenticationService(jdbcTemplate);
-                String authentication =  authenticationService.getAuthenticated(username, password, userType);
 
-                if(authentication != null) {
+                PersistenceResult<Integer> authentication = persistence.authenticateUser(username, password, userType);
+
+                if(authentication.getError() != null) {
                     System.out.println("authentication failed - ");
 
                     StompHeaderAccessor headerAccessor = StompHeaderAccessor.create(StompCommand.ERROR);
-                    headerAccessor.setMessage(authentication);
+                    headerAccessor.setMessage(authentication.getError());
                     headerAccessor.setSessionId(accessor.getSessionId());
 
                     clientOutboundChannel.send(MessageBuilder.createMessage(new byte[0], headerAccessor.getMessageHeaders()));
 
                     return null;
                 }
-
-                SecurityContextHolder.getContext().setAuthentication(authenticationService.getToken());
-                accessor.setUser(authenticationService.getToken());
+                Set<GrantedAuthority> authorities = Collections.singleton((GrantedAuthority) userType::toString);
+                UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(authentication.getResult(), null, authorities);
+                SecurityContextHolder.getContext().setAuthentication(token);
+                accessor.setUser(token);
 
                 return message;
             }

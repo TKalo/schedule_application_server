@@ -2,6 +2,7 @@ package com.coopschedulingapplication.restapiserver.Data.Entities;
 
 import com.coopschedulingapplication.restapiserver.Data.Enums.WeekDay;
 import com.coopschedulingapplication.restapiserver.Data.Enums.WorkerType;
+import com.coopschedulingapplication.restapiserver.Data.HelperFunctions;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -34,12 +35,12 @@ public class ShiftTemplate {
 
     public Map<String, Object> toJson(){
         HashMap<String,Object> jsonMap = new HashMap<>();
-        if(id != null) jsonMap.put("id",id);
-        if(storeId != null) jsonMap.put("storeId",storeId);
-        if(startTime != null) jsonMap.put("startTime",startTime);
-        if(endTime != null) jsonMap.put("endTime",endTime);
-        if(weekDay != null) jsonMap.put("weekDay",weekDay);
-        if(workerType != null) jsonMap.put("workerType",workerType);
+        HelperFunctions.addIfNotNull(jsonMap,"id",id);
+        HelperFunctions.addIfNotNull(jsonMap,"storeId",storeId);
+        HelperFunctions.addIfNotNull(jsonMap,"startTime",startTime);
+        HelperFunctions.addIfNotNull(jsonMap,"endTime",endTime);
+        HelperFunctions.addIfNotNull(jsonMap,"weekDay",weekDay);
+        HelperFunctions.addIfNotNull(jsonMap,"workerType",workerType);
         return jsonMap;
     }
 

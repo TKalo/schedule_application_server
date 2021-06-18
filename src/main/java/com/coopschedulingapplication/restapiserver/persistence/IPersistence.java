@@ -1,7 +1,7 @@
 package com.coopschedulingapplication.restapiserver.persistence;
 
 import com.coopschedulingapplication.restapiserver.Data.Entities.*;
-import com.coopschedulingapplication.restapiserver.Data.Enums.UserType;
+import com.coopschedulingapplication.restapiserver.Data.ValueEntities.ChainCreationValues;
 import com.coopschedulingapplication.restapiserver.Data.ValueEntities.DepartmentCreationValues;
 import com.coopschedulingapplication.restapiserver.Data.ValueEntities.PersistenceResult;
 import com.coopschedulingapplication.restapiserver.Data.ValueEntities.WorkerCreationValues;
@@ -36,6 +36,7 @@ public interface IPersistence {
 
     void addWorker(WorkerCreationValues values);
     void addDepartment(DepartmentCreationValues values);
+    void addChain(ChainCreationValues chain);
 
-    PersistenceResult<Integer> authenticateUser(String email, String password, UserType userType);
+    PersistenceResult<Integer> authenticateUser(String email, String password, String userType);
 }

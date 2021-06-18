@@ -19,17 +19,17 @@ public class UserAuthenticationTest {
     class sunshine{
         @Test
         void chainUser(){
-            assertEquals("wrong id",0,UA.authenticate("chain","chain", UserType.chain_administrator).getResult());
+            assertEquals("wrong id",0,UA.authenticate("chain","chain", "chain_administrator").getResult());
         }
 
         @Test
         void storeUser(){
-            assertEquals("wrong id",1,UA.authenticate("store","store", UserType.store_administrator).getResult());
+            assertEquals("wrong id",1,UA.authenticate("store","store", "store_administrator").getResult());
         }
 
         @Test
         void workerUser(){
-            assertEquals("wrong id",2,UA.authenticate("worker","worker", UserType.worker).getResult());
+            assertEquals("wrong id",2,UA.authenticate("worker","worker", "worker").getResult());
         }
     }
 
@@ -37,17 +37,17 @@ public class UserAuthenticationTest {
     class rain{
         @Test
         void wrongEmail(){
-            assertEquals("wrong error or no error", "email does not exist",UA.authenticate("wrong","chain", UserType.chain_administrator).getError());
+            assertEquals("wrong error or no error", "email does not exist",UA.authenticate("wrong","chain", "chain_administrator").getError());
         }
 
         @Test
         void wrongPassword(){
-            assertEquals("wrong error or no error", "password does not match email",UA.authenticate("chain","wrong", UserType.chain_administrator).getError());
+            assertEquals("wrong error or no error", "password does not match email",UA.authenticate("chain","wrong", "chain_administrator").getError());
         }
 
         @Test
         void wrongUserType(){
-            assertEquals("wrong error or no error", "user has insufficient access",UA.authenticate("chain","chain", UserType.store_administrator).getError());
+            assertEquals("wrong error or no error", "user has insufficient access",UA.authenticate("chain","chain", "chain_administrator").getError());
         }
     }
 }

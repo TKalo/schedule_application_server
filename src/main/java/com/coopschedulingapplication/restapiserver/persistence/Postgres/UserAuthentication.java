@@ -1,6 +1,5 @@
 package com.coopschedulingapplication.restapiserver.persistence.Postgres;
 
-import com.coopschedulingapplication.restapiserver.Data.Enums.UserType;
 import com.coopschedulingapplication.restapiserver.Data.ValueEntities.PersistenceResult;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -17,7 +16,7 @@ public class UserAuthentication {
         this.PGF = PGF;
     }
 
-    public PersistenceResult<Integer> authenticate(String email, String password, UserType userType){
+    public PersistenceResult<Integer> authenticate(String email, String password, String userType){
         String getUserSQL = "SELECT id FROM user_values WHERE email = :email AND password = :password AND (SELECT name FROM roles WHERE id = (SELECT role_id FROM user_roles WHERE user_id = user_values.id)) = :user_type;";
         String checkEmailSQL = "SELECT EXISTS(SELECT * FROM user_values WHERE email = :email) AS email_exist;";
         String checkPasswordSQL = "SELECT EXISTS(SELECT * FROM user_values WHERE email = :email AND password = :password) AS email_exist;";

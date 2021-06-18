@@ -11,8 +11,12 @@ import java.util.Map;
 @Component
 public class PostgresGenericFunctions {
 
-    @Autowired
     private NamedParameterJdbcTemplate jdbcTemplate;
+    @Autowired
+    private void setPostgresGenericFunctions(NamedParameterJdbcTemplate jdbcTemplate) {
+        this.jdbcTemplate = jdbcTemplate;
+    }
+
 
     public Map<String, Object> queryMap(String sql, Map<String, Object> params){
         MapSqlParameterSource sqlParams = HelperFunctions.map2SqlMap(params);

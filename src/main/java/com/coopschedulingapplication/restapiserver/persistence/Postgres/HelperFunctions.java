@@ -8,11 +8,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class HelperFunctions {
+class HelperFunctions {
 
-
-
-    public static Map<String, Object> snake2Camel(Map<String, Object> snakeMap){
+    static Map<String, Object> snake2Camel(Map<String, Object> snakeMap){
         Map<String, Object> camel = new HashMap<>();
         snakeMap.forEach((snakeKey, object) -> {
             while (snakeKey.contains("_")){
@@ -24,13 +22,13 @@ public class HelperFunctions {
         return camel;
     }
 
-    public static List<Map<String, Object>> snake2Camel(List<Map<String, Object>> snakeList){
+    static List<Map<String, Object>> snake2Camel(List<Map<String, Object>> snakeList){
         List<Map<String, Object>> camelList = new ArrayList<>();
         snakeList.forEach(snakeMap -> camelList.add(snake2Camel(snakeMap)));
         return camelList;
     }
 
-    public static MapSqlParameterSource map2SqlMap(Map<String, Object> map){
+    static MapSqlParameterSource map2SqlMap(Map<String, Object> map){
         MapSqlParameterSource sqlMap = new MapSqlParameterSource();
         map.forEach((key, object) -> {
             if(!List.of(Integer.class, Double.class, String.class, Long.class).contains(object.getClass())){

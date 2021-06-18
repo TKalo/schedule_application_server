@@ -1,13 +1,12 @@
 package com.coopschedulingapplication.restapiserver.persistence.Postgres;
 
 import com.coopschedulingapplication.restapiserver.Data.Entities.*;
-import com.coopschedulingapplication.restapiserver.Data.Enums.UserType;
+import com.coopschedulingapplication.restapiserver.Data.ValueEntities.ChainCreationValues;
 import com.coopschedulingapplication.restapiserver.Data.ValueEntities.DepartmentCreationValues;
 import com.coopschedulingapplication.restapiserver.Data.ValueEntities.PersistenceResult;
 import com.coopschedulingapplication.restapiserver.Data.ValueEntities.WorkerCreationValues;
 import com.coopschedulingapplication.restapiserver.persistence.IPersistence;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -17,10 +16,10 @@ import java.util.Map;
 @Component
 public class PostgresHandler implements IPersistence {
 
-    NamedParameterJdbcTemplate jdbcTemplate;
+    PostgresGenericFunctions PGF;
     @Autowired
-    public void setJdbcTemplate(NamedParameterJdbcTemplate jdbcTemplate) {
-        this.jdbcTemplate = jdbcTemplate;
+    public void setJdbcTemplate(PostgresGenericFunctions PGF) {
+        this.PGF = PGF;
     }
 
     WorkerCreationFunctions workerCreation;
@@ -39,6 +38,12 @@ public class PostgresHandler implements IPersistence {
     @Autowired
     public void setScheduleTemplate(ScheduleTemplateFunctions scheduleTemplate) {
         this.scheduleTemplate = scheduleTemplate;
+    }
+
+    AddUserFunctions addUserFunctions;
+    @Autowired
+    public void setAddUserFunctions(AddUserFunctions addUserFunctions) {
+        this.addUserFunctions = addUserFunctions;
     }
 
 
@@ -122,38 +127,35 @@ public class PostgresHandler implements IPersistence {
 
     @Override
     public User getUser(int userId) {
-        return HelperFunctions.successOrNull(()-> {
-            Map<String, Object> sqlMap = jdbcTemplate.queryForMap("SELECT * FROM user_table WHERE id=:id", Map.of("id",userId));
-            Map<String, Object> parsableMap = HelperFunctions.snake2Camel(sqlMap);
-            return new User(parsableMap);
-        });
+        String sql = "SELECT * FROM user_table WHERE id=:id";
+        Map<String, Object> params = Map.of("id",userId);
+        return HelperFunctions.successOrNull(()-> new User(PGF.queryMap(sql,params)));
     }
 
     @Override
     public Store getUserStore(int userId) {
-        return HelperFunctions.successOrNull(()-> {
-            Map<String, Object> sqlMap = jdbcTemplate.queryForMap("SELECT * FROM store WHERE id=(SELECT store_id FROM user_table WHERE id=:userId)", Map.of("user_id", userId));
-            Map<String, Object> parsableMap = HelperFunctions.snake2Camel(sqlMap);
-            return new Store(parsableMap);
-        });
+        String sql = "SELECT * FROM store WHERE id=(SELECT store_id FROM user_table WHERE id=:userId)";
+        Map<String, Object> params = Map.of("user_id", userId);
+        return HelperFunctions.successOrNull(()-> new Store(PGF.queryMap(sql,params)));
     }
 
     @Override
     public void addWorker(WorkerCreationValues values) {
-        jdbcTemplate.queryForMap(
-                "WITH " +
-                        "request_values(temp_store_id, temp_user_type) AS ((SELECT store_id,type FROM worker_creation_request WHERE key = :key))," +
-                        "temp_user_id(id) AS (INSERT INTO user_table (name, email, password, store_id, type) VALUES(:name, :email, :password, (SELECT temp_store_id FROM request_values), (SELECT temp_user_type FROM request_values)) RETURNING id)" +
-                        "INSERT INTO schedule_preferences (user_id) VALUES((SELECT id FROM temp_user_id));", HelperFunctions.map2SqlMap(values.toJson()));
+        addUserFunctions.addWorker(values);
     }
 
     @Override
     public void addDepartment(DepartmentCreationValues values) {
-        jdbcTemplate.update("INSERT INTO user_table (name, email, password, store_id, type) VALUES(:name, :email, :password, (INSERT INTO store (address, city) VALUES(:address, :city) RETURNING id), 'administrator')", HelperFunctions.map2SqlMap(values.toJson()));
+        addUserFunctions.addDepartment(values);
     }
 
     @Override
-    public PersistenceResult<Integer> authenticateUser(String email, String password, UserType userType) {
+    public void addChain(ChainCreationValues values) {
+        addUserFunctions.addChain(values);
+    }
+
+    @Override
+    public PersistenceResult<Integer> authenticateUser(String email, String password, String userType) {
         return userAuthentication.authenticate(email, password, userType);
     }
 }

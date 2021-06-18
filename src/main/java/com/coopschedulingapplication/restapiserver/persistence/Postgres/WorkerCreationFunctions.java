@@ -11,8 +11,12 @@ import java.util.stream.Collectors;
 @Component
 public class WorkerCreationFunctions {
 
+    private PostgresGenericFunctions PGF;
     @Autowired
-    PostgresGenericFunctions PGF;
+    private void setPostgresGenericFunctions(PostgresGenericFunctions PGF) {
+        this.PGF = PGF;
+    }
+
 
     public WorkerCreationRequest add(WorkerCreationRequest request, int userId) {
         String sql = "INSERT INTO worker_creation_request AS wcr (type, store_id) VALUES(:type, (SELECT store_id FROM user_table WHERE id=:userId)) RETURNING *";

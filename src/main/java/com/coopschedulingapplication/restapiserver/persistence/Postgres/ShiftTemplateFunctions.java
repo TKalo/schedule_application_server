@@ -11,8 +11,12 @@ import java.util.stream.Collectors;
 @Component
 public class ShiftTemplateFunctions {
 
+    private PostgresGenericFunctions PGF;
     @Autowired
-    PostgresGenericFunctions PGF;
+    private void setPostgresGenericFunctions(PostgresGenericFunctions PGF) {
+        this.PGF = PGF;
+    }
+
 
     public ShiftTemplate add(ShiftTemplate template, int userId) {
         String sql = "INSERT INTO shift_template (week_day, start_time, end_time, store_id, worker_type) VALUES(:weekDay, :startTime, :endTime, (SELECT store_id FROM user_table WHERE id = :userId), :workerType) RETURNING *";

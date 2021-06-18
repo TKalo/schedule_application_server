@@ -28,7 +28,7 @@ public class RestApiController {
     @Transactional
     @PostMapping(SpringDests.add + SpringDests.department)
     public void addDepartment(@RequestBody Map<String,Object> json){
-        persistence.addDepartment(DepartmentCreationValues.fromJson(json));
+        persistence.addDepartment(new DepartmentCreationValues(json));
     }
 
     @Transactional

@@ -1,5 +1,7 @@
 package com.coopschedulingapplication.restapiserver.Data.Entities;
 
+import com.coopschedulingapplication.restapiserver.Data.HelperFunctions;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -16,9 +18,9 @@ public class SchedulePreferences {
 
     public Map<String, Object> toJson(){
         HashMap<String,Object> jsonMap = new HashMap<>();
-        if(userId != null) jsonMap.put("userId",userId);
-        if(prefWeekDays != null) jsonMap.put("prefWeekDays",prefWeekDays);
-        if(maxWeekDays != null) jsonMap.put("maxWeekDays",maxWeekDays);
+        HelperFunctions.addIfNotNull(jsonMap,"userId",userId);
+        HelperFunctions.addIfNotNull(jsonMap,"prefWeekDays",prefWeekDays);
+        HelperFunctions.addIfNotNull(jsonMap,"maxWeekDays",maxWeekDays);
         return jsonMap;
     }
 
