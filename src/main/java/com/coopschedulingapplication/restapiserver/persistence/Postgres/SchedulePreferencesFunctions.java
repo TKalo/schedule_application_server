@@ -11,13 +11,17 @@ import java.util.stream.Collectors;
 @Component
 public class SchedulePreferencesFunctions {
 
-    @Autowired
+
     PostgresGenericFunctions PGF;
+    @Autowired
+    public void setPostgresGenericFunctions(PostgresGenericFunctions PGF) {
+        this.PGF = PGF;
+    }
 
     public SchedulePreferences set(SchedulePreferences preferences) {
         String sql = "UPDATE schedule_preferences SET pref_week_days = :prefWeekDays, max_week_days=:maxWeekDays WHERE user_id = :userId RETURNING *";
         Map<String, Object> params = preferences.toJson();
-        return HelperFunctions.successOrNull(()-> new SchedulePreferences(PGF.queryMap(sql,params)));
+        return HelperFunctions.successOrNull(() -> new SchedulePreferences(PGF.queryMap(sql,params)));
     }
 
     public List<SchedulePreferences> getByStore(int storeId) {

@@ -1,7 +1,9 @@
 package com.coopschedulingapplication.restapiserver.persistence;
 
 import com.coopschedulingapplication.restapiserver.Data.Entities.*;
+import com.coopschedulingapplication.restapiserver.Data.Enums.UserType;
 import com.coopschedulingapplication.restapiserver.Data.ValueEntities.DepartmentCreationValues;
+import com.coopschedulingapplication.restapiserver.Data.ValueEntities.PersistenceResult;
 import com.coopschedulingapplication.restapiserver.Data.ValueEntities.WorkerCreationValues;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.stereotype.Component;
@@ -34,4 +36,6 @@ public interface IPersistence {
 
     void addWorker(WorkerCreationValues values);
     void addDepartment(DepartmentCreationValues values);
+
+    PersistenceResult<Integer> authenticateUser(String email, String password, UserType userType);
 }

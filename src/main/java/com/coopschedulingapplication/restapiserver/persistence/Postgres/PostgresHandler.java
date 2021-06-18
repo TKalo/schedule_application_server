@@ -1,7 +1,9 @@
 package com.coopschedulingapplication.restapiserver.persistence.Postgres;
 
 import com.coopschedulingapplication.restapiserver.Data.Entities.*;
+import com.coopschedulingapplication.restapiserver.Data.Enums.UserType;
 import com.coopschedulingapplication.restapiserver.Data.ValueEntities.DepartmentCreationValues;
+import com.coopschedulingapplication.restapiserver.Data.ValueEntities.PersistenceResult;
 import com.coopschedulingapplication.restapiserver.Data.ValueEntities.WorkerCreationValues;
 import com.coopschedulingapplication.restapiserver.persistence.IPersistence;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,25 +17,43 @@ import java.util.Map;
 @Component
 public class PostgresHandler implements IPersistence {
 
-    @Autowired
     NamedParameterJdbcTemplate jdbcTemplate;
-
-    @Autowired
-    WorkerCreationFunctions workerCreation;
-
-    @Autowired
-    ShiftTemplateFunctions shiftTemplate;
-
-    @Autowired
-    ScheduleTemplateFunctions scheduleTemplate;
-
-    @Autowired
-    SchedulePreferencesFunctions schedulePreferences;
-
     @Autowired
     public void setJdbcTemplate(NamedParameterJdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
     }
+
+    WorkerCreationFunctions workerCreation;
+    @Autowired
+    public void setWorkerCreation(WorkerCreationFunctions workerCreation) {
+        this.workerCreation = workerCreation;
+    }
+
+    ShiftTemplateFunctions shiftTemplate;
+    @Autowired
+    public void setShiftTemplate(ShiftTemplateFunctions shiftTemplate) {
+        this.shiftTemplate = shiftTemplate;
+    }
+
+    ScheduleTemplateFunctions scheduleTemplate;
+    @Autowired
+    public void setScheduleTemplate(ScheduleTemplateFunctions scheduleTemplate) {
+        this.scheduleTemplate = scheduleTemplate;
+    }
+
+
+    SchedulePreferencesFunctions schedulePreferences;
+    @Autowired
+    public void setSchedulePreferences(SchedulePreferencesFunctions schedulePreferences) {
+        this.schedulePreferences = schedulePreferences;
+    }
+
+    UserAuthentication userAuthentication;
+    @Autowired
+    public void setUserAuthentication(UserAuthentication userAuthentication) {
+        this.userAuthentication = userAuthentication;
+    }
+
 
     @Override
     public WorkerCreationRequest addWorkerCreationRequest(WorkerCreationRequest request, int userId) {
@@ -130,6 +150,11 @@ public class PostgresHandler implements IPersistence {
     @Override
     public void addDepartment(DepartmentCreationValues values) {
         jdbcTemplate.update("INSERT INTO user_table (name, email, password, store_id, type) VALUES(:name, :email, :password, (INSERT INTO store (address, city) VALUES(:address, :city) RETURNING id), 'administrator')", HelperFunctions.map2SqlMap(values.toJson()));
+    }
+
+    @Override
+    public PersistenceResult<Integer> authenticateUser(String email, String password, UserType userType) {
+        return userAuthentication.authenticate(email, password, userType);
     }
 }
 
