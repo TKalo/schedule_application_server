@@ -1,5 +1,6 @@
 package com.coopschedulingapplication.restapiserver.Controllers;
 
+import com.coopschedulingapplication.restapiserver.Data.ValueEntities.ChainCreationValues;
 import com.coopschedulingapplication.restapiserver.Data.ValueEntities.DepartmentCreationValues;
 import com.coopschedulingapplication.restapiserver.Data.ValueEntities.WorkerCreationValues;
 import com.coopschedulingapplication.restapiserver.SpringDests;
@@ -21,8 +22,8 @@ public class RestApiController {
 
     @Transactional
     @PostMapping(SpringDests.add + SpringDests.chain)
-    public void addChain(@RequestBody Map<String,String> json){
-
+    public void addChain(@RequestBody Map<String,Object> json){
+        persistence.addChain(new ChainCreationValues(json));
     }
 
     @Transactional
@@ -35,7 +36,7 @@ public class RestApiController {
     @PostMapping(SpringDests.add + SpringDests.worker)
     public void addWorker(@RequestBody Map<String,Object> json) {
         error = "found no match for provided key";
-        persistence.addWorker(WorkerCreationValues.fromJson(json));
+        persistence.addWorker(new WorkerCreationValues(json));
     }
 
     @ExceptionHandler({Exception.class})

@@ -15,13 +15,11 @@ public class WorkerCreationValues {
         this.key = key;
     }
 
-    public static WorkerCreationValues fromJson(Map<String, Object> json){
-        return new WorkerCreationValues(
-                (String) json.get("name"),
-                (String) json.get("email"),
-                (String) json.get("password"),
-                (String) json.get("key")
-        );
+    public WorkerCreationValues(Map<String, Object> json){
+        this.name = (String) json.get("name");
+        this.email = (String) json.get("email");
+        this.password = (String) json.get("password");
+        this.key = (String) json.get("key");
     }
 
     public Map<String, Object> toJson(){
