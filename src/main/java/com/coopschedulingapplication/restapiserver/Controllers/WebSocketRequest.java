@@ -1,19 +1,19 @@
 package com.coopschedulingapplication.restapiserver.Controllers;
 
-import com.coopschedulingapplication.restapiserver.Data.Entities.SchedulePreferences;
-import com.coopschedulingapplication.restapiserver.Data.Entities.ScheduleTemplate;
-import com.coopschedulingapplication.restapiserver.Data.Entities.ShiftTemplate;
-import com.coopschedulingapplication.restapiserver.Data.Entities.WorkerCreationRequest;
+import com.coopschedulingapplication.restapiserver.DataTypes.Entities.SchedulePreferences;
+import com.coopschedulingapplication.restapiserver.DataTypes.Entities.ScheduleTemplate;
+import com.coopschedulingapplication.restapiserver.DataTypes.Entities.ShiftTemplate;
+import com.coopschedulingapplication.restapiserver.DataTypes.Entities.WorkerCreationRequest;
+import com.coopschedulingapplication.restapiserver.DataTypes.StompEntities.*;
 import com.coopschedulingapplication.restapiserver.SpringDests;
-import com.coopschedulingapplication.restapiserver.StompEntities.Post;
-import com.coopschedulingapplication.restapiserver.StompEntities.PostCommand;
-import com.coopschedulingapplication.restapiserver.persistence.Postgres.PostgresHandler;
+import com.coopschedulingapplication.restapiserver.Database.Postgres.PostgresHandler;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.messaging.simp.annotation.SendToUser;
 import org.springframework.stereotype.Controller;
+
 
 import java.security.Principal;
 import java.util.List;

@@ -1,7 +1,8 @@
-package com.coopschedulingapplication.restapiserver.persistence.Postgres;
+package com.coopschedulingapplication.restapiserver.Database.Postgres;
 
-import com.coopschedulingapplication.restapiserver.Data.Enums.WeekDay;
-import com.coopschedulingapplication.restapiserver.Data.Enums.WorkerType;
+import com.coopschedulingapplication.restapiserver.DataTypes.Enums.WeekDay;
+import com.coopschedulingapplication.restapiserver.DataTypes.Enums.WorkerType;
+
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;

@@ -1,10 +1,10 @@
-package com.coopschedulingapplication.restapiserver.persistence;
+package com.coopschedulingapplication.restapiserver.Database;
 
-import com.coopschedulingapplication.restapiserver.Data.Entities.*;
-import com.coopschedulingapplication.restapiserver.Data.ValueEntities.ChainCreationValues;
-import com.coopschedulingapplication.restapiserver.Data.ValueEntities.DepartmentCreationValues;
-import com.coopschedulingapplication.restapiserver.Data.ValueEntities.PersistenceResult;
-import com.coopschedulingapplication.restapiserver.Data.ValueEntities.WorkerCreationValues;
+import com.coopschedulingapplication.restapiserver.DataTypes.Entities.*;
+import com.coopschedulingapplication.restapiserver.DataTypes.ValueEntities.ChainCreationValues;
+import com.coopschedulingapplication.restapiserver.DataTypes.ValueEntities.DepartmentCreationValues;
+import com.coopschedulingapplication.restapiserver.DataTypes.ValueEntities.PersistenceResult;
+import com.coopschedulingapplication.restapiserver.DataTypes.ValueEntities.WorkerCreationValues;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.stereotype.Component;
 

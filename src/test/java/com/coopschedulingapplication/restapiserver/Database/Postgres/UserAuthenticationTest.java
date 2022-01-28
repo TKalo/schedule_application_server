@@ -1,7 +1,6 @@
-package com.coopschedulingapplication.restapiserver.persistence.Postgres;
+package com.coopschedulingapplication.restapiserver.Database.Postgres;
 
 
-import com.coopschedulingapplication.restapiserver.Data.Enums.UserType;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

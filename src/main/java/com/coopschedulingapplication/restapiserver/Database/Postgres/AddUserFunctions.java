@@ -1,8 +1,8 @@
-package com.coopschedulingapplication.restapiserver.persistence.Postgres;
+package com.coopschedulingapplication.restapiserver.Database.Postgres;
 
-import com.coopschedulingapplication.restapiserver.Data.ValueEntities.ChainCreationValues;
-import com.coopschedulingapplication.restapiserver.Data.ValueEntities.DepartmentCreationValues;
-import com.coopschedulingapplication.restapiserver.Data.ValueEntities.WorkerCreationValues;
+import com.coopschedulingapplication.restapiserver.DataTypes.ValueEntities.ChainCreationValues;
+import com.coopschedulingapplication.restapiserver.DataTypes.ValueEntities.DepartmentCreationValues;
+import com.coopschedulingapplication.restapiserver.DataTypes.ValueEntities.WorkerCreationValues;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Component;

@@ -1,10 +1,11 @@
-package com.coopschedulingapplication.restapiserver.Data.Entities;
+package com.coopschedulingapplication.restapiserver.DataTypes.Entities;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 
 import java.util.Map;
+
 
 import static org.junit.jupiter.api.Assertions.*;
 

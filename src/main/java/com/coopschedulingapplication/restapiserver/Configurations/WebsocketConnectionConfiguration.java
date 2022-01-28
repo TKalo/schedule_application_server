@@ -1,15 +1,14 @@
 package com.coopschedulingapplication.restapiserver.Configurations;
 
-import com.coopschedulingapplication.restapiserver.Data.ValueEntities.PersistenceResult;
+import com.coopschedulingapplication.restapiserver.DataTypes.ValueEntities.PersistenceResult;
 import com.coopschedulingapplication.restapiserver.SpringDests;
-import com.coopschedulingapplication.restapiserver.persistence.IPersistence;
-import com.coopschedulingapplication.restapiserver.persistence.Postgres.PostgresHandler;
+import com.coopschedulingapplication.restapiserver.Database.IPersistence;
+import com.coopschedulingapplication.restapiserver.Database.Postgres.PostgresHandler;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
-import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.messaging.Message;
 import org.springframework.messaging.MessageChannel;
 import org.springframework.messaging.converter.ByteArrayMessageConverter;

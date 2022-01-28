@@ -1,4 +1,4 @@
-package com.coopschedulingapplication.restapiserver.Data.Entities;
+package com.coopschedulingapplication.restapiserver.DataTypes.Entities;
 
 public class Chain {
 

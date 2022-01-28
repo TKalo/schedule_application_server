@@ -1,11 +1,11 @@
 package com.coopschedulingapplication.restapiserver.Controllers;
 
-import com.coopschedulingapplication.restapiserver.Data.ValueEntities.ChainCreationValues;
-import com.coopschedulingapplication.restapiserver.Data.ValueEntities.DepartmentCreationValues;
-import com.coopschedulingapplication.restapiserver.Data.ValueEntities.WorkerCreationValues;
+import com.coopschedulingapplication.restapiserver.DataTypes.ValueEntities.ChainCreationValues;
+import com.coopschedulingapplication.restapiserver.DataTypes.ValueEntities.DepartmentCreationValues;
+import com.coopschedulingapplication.restapiserver.DataTypes.ValueEntities.WorkerCreationValues;
 import com.coopschedulingapplication.restapiserver.SpringDests;
-import com.coopschedulingapplication.restapiserver.persistence.IPersistence;
-import com.coopschedulingapplication.restapiserver.persistence.Postgres.PostgresHandler;
+import com.coopschedulingapplication.restapiserver.Database.IPersistence;
+import com.coopschedulingapplication.restapiserver.Database.Postgres.PostgresHandler;
 import org.springframework.http.HttpStatus;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;

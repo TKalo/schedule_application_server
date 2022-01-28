@@ -1,4 +1,4 @@
-package com.coopschedulingapplication.restapiserver.Data.ValueEntities;
+package com.coopschedulingapplication.restapiserver.DataTypes.ValueEntities;
 
 import java.util.Map;
 

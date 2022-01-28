@@ -1,4 +1,4 @@
-package com.coopschedulingapplication.restapiserver.Data;
+package com.coopschedulingapplication.restapiserver.DataTypes;
 
 import java.util.Map;
 

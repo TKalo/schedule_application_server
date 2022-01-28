@@ -1,4 +1,4 @@
-package com.coopschedulingapplication.restapiserver.Data.Enums;
+package com.coopschedulingapplication.restapiserver.DataTypes.Enums;
 
 public enum WorkerType {
     below_eighteen,

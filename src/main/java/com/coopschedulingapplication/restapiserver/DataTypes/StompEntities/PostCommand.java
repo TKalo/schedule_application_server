@@ -1,4 +1,4 @@
-package com.coopschedulingapplication.restapiserver.StompEntities;
+package com.coopschedulingapplication.restapiserver.DataTypes.StompEntities;
 
 public enum PostCommand {
     ADD,

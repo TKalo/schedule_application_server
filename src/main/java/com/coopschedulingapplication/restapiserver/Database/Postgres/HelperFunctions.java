@@ -1,4 +1,4 @@
-package com.coopschedulingapplication.restapiserver.persistence.Postgres;
+package com.coopschedulingapplication.restapiserver.Database.Postgres;
 
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 
@@ -10,7 +10,7 @@ import java.util.Map;
 
 class HelperFunctions {
 
-    static Map<String, Object> snake2Camel(Map<String, Object> snakeMap){
+    public static Map<String, Object> snake2Camel(Map<String, Object> snakeMap){
         Map<String, Object> camel = new HashMap<>();
         snakeMap.forEach((snakeKey, object) -> {
             while (snakeKey.contains("_")){
@@ -22,13 +22,13 @@ class HelperFunctions {
         return camel;
     }
 
-    static List<Map<String, Object>> snake2Camel(List<Map<String, Object>> snakeList){
+    public static List<Map<String, Object>> snake2Camel(List<Map<String, Object>> snakeList){
         List<Map<String, Object>> camelList = new ArrayList<>();
         snakeList.forEach(snakeMap -> camelList.add(snake2Camel(snakeMap)));
         return camelList;
     }
 
-    static MapSqlParameterSource map2SqlMap(Map<String, Object> map){
+    public static MapSqlParameterSource map2SqlMap(Map<String, Object> map){
         MapSqlParameterSource sqlMap = new MapSqlParameterSource();
         map.forEach((key, object) -> {
             if(!List.of(Integer.class, Double.class, String.class, Long.class).contains(object.getClass())){
@@ -40,7 +40,7 @@ class HelperFunctions {
         return sqlMap;
     }
 
-    static <T> T successOrNull(ITry<T> run){
+    public static <T> T successOrNull(ITry<T> run){
         try {
             return run.iTry();
         }catch (Exception e){
@@ -49,7 +49,7 @@ class HelperFunctions {
         }
     }
 
-    interface ITry<T>{
+    public interface ITry<T>{
         T iTry();
     }
 }

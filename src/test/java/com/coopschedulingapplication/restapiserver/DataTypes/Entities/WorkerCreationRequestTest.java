@@ -1,7 +1,7 @@
-package com.coopschedulingapplication.restapiserver.Data.Entities;
+package com.coopschedulingapplication.restapiserver.DataTypes.Entities;
 
-import com.coopschedulingapplication.restapiserver.Data.Enums.WorkerCreationStatus;
-import com.coopschedulingapplication.restapiserver.Data.Enums.WorkerType;
+import com.coopschedulingapplication.restapiserver.DataTypes.Enums.WorkerCreationStatus;
+import com.coopschedulingapplication.restapiserver.DataTypes.Enums.WorkerType;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 

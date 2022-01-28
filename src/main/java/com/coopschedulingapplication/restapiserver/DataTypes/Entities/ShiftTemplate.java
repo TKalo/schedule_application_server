@@ -1,8 +1,8 @@
-package com.coopschedulingapplication.restapiserver.Data.Entities;
+package com.coopschedulingapplication.restapiserver.DataTypes.Entities;
 
-import com.coopschedulingapplication.restapiserver.Data.Enums.WeekDay;
-import com.coopschedulingapplication.restapiserver.Data.Enums.WorkerType;
-import com.coopschedulingapplication.restapiserver.Data.HelperFunctions;
+import com.coopschedulingapplication.restapiserver.DataTypes.Enums.WeekDay;
+import com.coopschedulingapplication.restapiserver.DataTypes.Enums.WorkerType;
+import com.coopschedulingapplication.restapiserver.DataTypes.HelperFunctions;
 
 import java.util.HashMap;
 import java.util.Map;

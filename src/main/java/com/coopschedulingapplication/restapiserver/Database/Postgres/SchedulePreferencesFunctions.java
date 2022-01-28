@@ -1,6 +1,6 @@
-package com.coopschedulingapplication.restapiserver.persistence.Postgres;
+package com.coopschedulingapplication.restapiserver.Database.Postgres;
 
-import com.coopschedulingapplication.restapiserver.Data.Entities.SchedulePreferences;
+import com.coopschedulingapplication.restapiserver.DataTypes.Entities.SchedulePreferences;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
